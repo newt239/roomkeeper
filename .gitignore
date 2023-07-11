@@ -36,3 +36,5 @@ next-env.d.ts
 
 # Panda CSS
 styled-system
+
+.env

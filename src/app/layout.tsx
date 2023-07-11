@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+import Scanner from "@/components/Scanner";
+import { css } from "@panda/css";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,7 +16,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <h1 className={css({ fontSize: "4xl" })}>SCC 自習室 入退室管理</h1>
+        <main>
+          <div className={css({ display: "flex" })}>
+            <Scanner />
+            {children}
+          </div>
+        </main>
+      </body>
     </html>
   );
 }
