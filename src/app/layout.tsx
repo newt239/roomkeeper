@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <h1 className={css({ fontSize: "4xl" })}>SCC 自習室 入退室管理</h1>
+        <h1 className={css({ fontSize: "4xl" })}>roomkeeper</h1>
         <main>
           <div className={css({ display: "flex" })}>
             <Scanner />
