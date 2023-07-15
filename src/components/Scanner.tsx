@@ -10,7 +10,7 @@ import { css } from "@panda/css";
 export default function Scanner() {
   const router = useRouter();
   const [data, setData] = useState("No result");
-  const [cameraState, setCameraState] = useState<boolean>(false);
+  const [cameraState, setCameraState] = useState<boolean>(true);
 
   return (
     <>
@@ -24,7 +24,7 @@ export default function Scanner() {
         カメラを{cameraState ? "停止" : "起動"}する
       </label>
       <div className={css({ w: "min(50vw, 50vh)", h: "min(50vw, 50vh)" })}>
-        {cameraState ? (
+        {window !== undefined && cameraState ? (
           <>
             <QrReader
               constraints={{ facingMode: "user" }}
