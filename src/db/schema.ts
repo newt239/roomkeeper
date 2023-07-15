@@ -1,7 +1,7 @@
 import { boolean, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const guestsTable = pgTable("guests", {
-  id: serial("id").primaryKey(),
+  id: text("id").primaryKey(),
   name: text("name").notNull(),
   available: boolean("available").default(true),
 });

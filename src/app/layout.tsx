@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import Scanner from "@/components/Scanner";
 import { css } from "@panda/css";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,6 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <h1 className={css({ fontSize: "4xl" })}>roomkeeper</h1>
+        <div>
+          <Link href="/">スキャン</Link>
+          <Link href="/history">履歴</Link>
+        </div>
         <main>
           <div className={css({ display: "flex" })}>
             <Scanner />
