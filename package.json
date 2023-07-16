@@ -18,14 +18,17 @@
     "@vercel/postgres": "^0.4.0",
     "dayjs": "^1.11.9",
     "drizzle-orm": "^0.27.2",
+    "encoding-japanese": "^2.0.0",
     "next": "13.4.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-papaparse": "^4.1.0",
     "react-qr-reader": "3.0.0-beta-1",
     "typescript": "5.1.6"
   },
   "devDependencies": {
     "@pandacss/dev": "^0.6.0",
+    "@types/encoding-japanese": "^2.0.1",
     "@types/pg": "^8.10.2",
     "@typescript-eslint/parser": "^6.0.0",
     "drizzle-kit": "^0.19.5",

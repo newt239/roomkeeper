@@ -3,6 +3,7 @@ import { desc } from "drizzle-orm";
 
 import { db } from "@/db/connect";
 import { activitiesTable } from "@/db/schema";
+import { css } from "@panda/css";
 
 export default async function HistoryPage() {
   const activities = await db
@@ -13,7 +14,15 @@ export default async function HistoryPage() {
 
   return (
     <div>
-      <table>
+      <h2
+        className={css({
+          fontSize: "3xl",
+          mt: 4,
+        })}
+      >
+        スキャン履歴
+      </h2>
+      <table className={css({ mt: 4 })}>
         <thead>
           <tr>
             <th>ゲストID</th>

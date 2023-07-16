@@ -8,6 +8,7 @@ export default function Header() {
   const links = [
     { href: "/", label: "スキャン" },
     { href: "/history", label: "履歴" },
+    { href: "/settings", label: "設定" },
   ];
 
   return (

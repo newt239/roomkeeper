@@ -26,6 +26,9 @@ dependencies:
   drizzle-orm:
     specifier: ^0.27.2
     version: 0.27.2(@types/pg@8.10.2)(@vercel/postgres@0.4.0)
+  encoding-japanese:
+    specifier: ^2.0.0
+    version: 2.0.0
   next:
     specifier: 13.4.9
     version: 13.4.9(@babel/core@7.22.9)(react-dom@18.2.0)(react@18.2.0)
@@ -35,6 +38,9 @@ dependencies:
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
+  react-papaparse:
+    specifier: ^4.1.0
+    version: 4.1.0
   react-qr-reader:
     specifier: 3.0.0-beta-1
     version: 3.0.0-beta-1(react-dom@18.2.0)(react@18.2.0)
@@ -46,6 +52,9 @@ devDependencies:
   '@pandacss/dev':
     specifier: ^0.6.0
     version: 0.6.0(@internationalized/date@3.3.0)(@types/node@20.4.1)(@types/react-dom@18.2.6)(@types/react@18.2.14)(astro@2.7.2)(typescript@5.1.6)
+  '@types/encoding-japanese':
+    specifier: ^2.0.1
+    version: 2.0.1
   '@types/pg':
     specifier: ^8.10.2
     version: 8.10.2
@@ -1427,6 +1436,10 @@ packages:
       '@types/ms': 0.7.31
     dev: true
 
+  /@types/encoding-japanese@2.0.1:
+    resolution: {integrity: sha512-JaCXs2HLniKY8xXeWlg8MAtd4iKhNh8LwutW3yDMWY4usEdTZ2va1x9kd8V3179OAIUTgGQVA63XJrHettpVFQ==}
+    dev: true
+
   /@types/hast@2.3.5:
     resolution: {integrity: sha512-SvQi0L/lNpThgPoleH53cdjB3y9zpLlVjRbqB3rH8hx1jiRSBGAhyjV3H+URFjNVRqt2EdYNrbZE5IsGlNfpRg==}
     dependencies:
@@ -1463,6 +1476,12 @@ packages:
 
   /@types/node@20.4.1:
     resolution: {integrity: sha512-JIzsAvJeA/5iY6Y/OxZbv1lUcc8dNSE77lb2gnBH+/PJ3lFR1Ccvgwl5JWnHAkNHcRsT0TbpVOsiMKZ1F/yyJg==}
+
+  /@types/papaparse@5.3.7:
+    resolution: {integrity: sha512-f2HKmlnPdCvS0WI33WtCs5GD7X1cxzzS/aduaxSu3I7TbhWlENjSPs6z5TaB9K0J+BH1jbmqTaM+ja5puis4wg==}
+    dependencies:
+      '@types/node': 20.4.1
+    dev: false
 
   /@types/parse5@6.0.3:
     resolution: {integrity: sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==}
@@ -3127,6 +3146,11 @@ packages:
   /emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
     dev: true
+
+  /encoding-japanese@2.0.0:
+    resolution: {integrity: sha512-++P0RhebUC8MJAwJOsT93dT+5oc5oPImp1HubZpAuCZ5kTLnhuuBhKHj2jJeO/Gj93idPBWmIuQ9QWMe5rX3pQ==}
+    engines: {node: '>=8.10.0'}
+    dev: false
 
   /enhanced-resolve@5.15.0:
     resolution: {integrity: sha512-LXYT42KJ7lpIKECr2mAXIaMldcNCh/7E0KBKOu4KSfkHmP+mZmSs+8V5gBAqisWBy0OO4W5Oyys0GO1Y8KtdKg==}
@@ -5414,6 +5438,10 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /papaparse@5.4.1:
+    resolution: {integrity: sha512-HipMsgJkZu8br23pW15uvo6sib6wne/4woLZPlFf3rpDyMe9ywEXUsuD7+6K9PRkJlVT51j/sCOYDKGGS3ZJrw==}
+    dev: false
+
   /parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
     engines: {node: '>=6'}
@@ -5782,6 +5810,14 @@ packages:
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: true
+
+  /react-papaparse@4.1.0:
+    resolution: {integrity: sha512-sGJqK+OE2rVVQPxQUCCDW2prLIglv9kTdizhNe2awXvKo0gLShmhpRN3BwA+ujw5M2gSJ/KGNEwtgII0OsLgkg==}
+    engines: {node: '>=8', npm: '>=5'}
+    dependencies:
+      '@types/papaparse': 5.3.7
+      papaparse: 5.4.1
+    dev: false
 
   /react-qr-reader@3.0.0-beta-1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-5HeFH9x/BlziRYQYGK2AeWS9WiKYZtGGMs9DXy3bcySTX3C9UJL9EwcPnWw8vlf7JP4FcrAlr1SnZ5nsWLQGyw==}
