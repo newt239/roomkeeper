@@ -47,12 +47,9 @@ export default function Scanner() {
           {cameraState && (
             <QrReader
               constraints={{ facingMode: "user" }}
-              onResult={(result, error) => {
+              onResult={(result, _error) => {
                 if (!!result) {
                   router.push(`/${result.getText()}`);
-                }
-                if (!!error) {
-                  console.info(error);
                 }
               }}
             />

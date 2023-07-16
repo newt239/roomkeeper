@@ -82,6 +82,12 @@ export default function HomePage() {
               _hover: {
                 bgColor: "gray.300",
               },
+              _osDark: {
+                bgColor: "gray.700",
+                _hover: {
+                  bgColor: "gray.700",
+                },
+              },
             },
           })}
           disabled={inputId.length === 0}
