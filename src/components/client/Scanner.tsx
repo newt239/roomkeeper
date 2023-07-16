@@ -13,7 +13,15 @@ export default function Scanner() {
   const [cameraState, setCameraState] = useState<boolean>(true);
 
   return (
-    <>
+    <div
+      className={css({
+        m: 4,
+        display: "flex",
+        gap: 4,
+        flexDirection: "column",
+        alignItems: "center",
+      })}
+    >
       <label htmlFor="switch">
         <input
           checked={cameraState}
@@ -23,9 +31,17 @@ export default function Scanner() {
         />
         カメラを{cameraState ? "停止" : "起動"}する
       </label>
-      <div className={css({ w: "min(50vw, 50vh)", h: "min(50vw, 50vh)" })}>
-        {window !== undefined && cameraState ? (
-          <>
+      <div className={css({ w: "min(50vw, 70vh)", h: "min(50vw, 70vh)" })}>
+        <div
+          className={css({
+            w: "100%",
+            h: "100%",
+            bgColor: "gray.100",
+            borderRadius: 16,
+            _osDark: { bgColor: "gray.700" },
+          })}
+        >
+          {window !== undefined && cameraState && (
             <QrReader
               constraints={{ facingMode: "user" }}
               onResult={(result, error) => {
@@ -38,12 +54,9 @@ export default function Scanner() {
                 }
               }}
             />
-            <p>{data}</p>
-          </>
-        ) : (
-          <div></div>
-        )}
+          )}
+        </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { BIZ_UDPGothic } from "@next/font/google";
 
-import Scanner from "@/components/Scanner";
+import Scanner from "@/components/client/Scanner";
 import { css } from "@panda/css";
 
 import "./globals.css";
@@ -18,7 +17,7 @@ const bizUDPGpthic = BIZ_UDPGothic({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -26,17 +25,28 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={bizUDPGpthic.className}>
-        <header>
+        <header
+          className={css({
+            bgColor: "gray.100",
+            borderStyle: "solid",
+            borderWidth: 1,
+            borderColor: "gray.200",
+            m: 4,
+            px: 4,
+            py: 2,
+            borderRadius: 8,
+            shadow: "md",
+            _osDark: { bgColor: "gray.700", borderColor: "gray.600" },
+          })}
+        >
           <h1 className={css({ fontSize: "4xl" })}>Roomkeeper</h1>
         </header>
-        <div>
-          <Link href="/">スキャン</Link>
-          <Link href="/history">履歴</Link>
-        </div>
         <main>
           <div className={css({ display: "flex" })}>
-            <Scanner />
-            {children}
+            <div className={css({ w: "1/2" })}>
+              <Scanner />
+            </div>
+            <div className={css({ w: "1/2", maxW: 400 })}>{children}</div>
           </div>
         </main>
       </body>
