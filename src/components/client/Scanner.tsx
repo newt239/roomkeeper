@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { QrReader } from "react-qr-reader";
 
@@ -9,8 +9,11 @@ import { css } from "@panda/css";
 
 export default function Scanner() {
   const router = useRouter();
-  const [data, setData] = useState("No result");
-  const [cameraState, setCameraState] = useState<boolean>(true);
+  const [cameraState, setCameraState] = useState<boolean>(false);
+
+  useEffect(() => {
+    setCameraState(true);
+  }, []);
 
   return (
     <div
@@ -41,12 +44,11 @@ export default function Scanner() {
             _osDark: { bgColor: "gray.700" },
           })}
         >
-          {window !== undefined && cameraState && (
+          {cameraState && (
             <QrReader
               constraints={{ facingMode: "user" }}
               onResult={(result, error) => {
                 if (!!result) {
-                  setData(result.getText());
                   router.push(`/${result.getText()}`);
                 }
                 if (!!error) {
