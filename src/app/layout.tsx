@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { BIZ_UDPGothic } from "@next/font/google";
 
+import Header from "@/components/client/Header";
 import Scanner from "@/components/client/Scanner";
 import { css } from "@panda/css";
 
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const bizUDPGpthic = BIZ_UDPGothic({
-  weight: ["400"],
+  weight: ["400", "700"],
   subsets: ["latin"],
 });
 
@@ -25,22 +26,7 @@ export default async function RootLayout({
   return (
     <html lang="ja">
       <body className={bizUDPGpthic.className}>
-        <header
-          className={css({
-            bgColor: "gray.100",
-            borderStyle: "solid",
-            borderWidth: 1,
-            borderColor: "gray.200",
-            m: 4,
-            px: 4,
-            py: 2,
-            borderRadius: 8,
-            shadow: "md",
-            _osDark: { bgColor: "gray.700", borderColor: "gray.600" },
-          })}
-        >
-          <h1 className={css({ fontSize: "4xl" })}>Roomkeeper</h1>
-        </header>
+        <Header />
         <main>
           <div className={css({ display: "flex" })}>
             <div className={css({ w: "1/2" })}>
