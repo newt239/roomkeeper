@@ -28,11 +28,33 @@ export default async function RootLayout({
       <body className={bizUDPGpthic.className}>
         <Header />
         <main>
-          <div className={css({ display: "flex" })}>
-            <div className={css({ w: "1/2" })}>
+          <div
+            className={css({
+              m: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 4,
+              md: {
+                flexDirection: "row",
+                alignItems: "flex-start",
+              },
+            })}
+          >
+            <div
+              className={css({
+                w: "100%",
+                md: {
+                  w: "50%",
+                },
+              })}
+            >
               <Scanner />
             </div>
-            <div className={css({ w: "1/2", maxW: 400 })}>{children}</div>
+            <div className={css({ w: "100%", md: { w: "40%", maxW: 400 } })}>
+              {children}
+            </div>
           </div>
         </main>
       </body>
