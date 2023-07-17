@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 
 import { BIZ_UDPGothic } from "@next/font/google";
 
-import Header from "@/components/client/Header";
 import Scanner from "@/components/client/Scanner";
+import Header from "@/components/server/Header";
 import { css } from "@panda/css";
 
 import "./globals.css";

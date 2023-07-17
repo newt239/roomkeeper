@@ -1,16 +1,7 @@
-"use client";
-
-import Link from "next/link";
-
+import Menus from "@/components/client/Menus";
 import { css } from "@panda/css";
 
-export default function Header() {
-  const links = [
-    { href: "/", label: "スキャン" },
-    { href: "/history", label: "履歴" },
-    { href: "/settings", label: "設定" },
-  ];
-
+export default async function Header() {
   return (
     <header
       className={css({
@@ -39,21 +30,7 @@ export default function Header() {
           display: "flex",
         })}
       >
-        {links.map(({ href, label }) => (
-          <Link
-            className={css({
-              px: 4,
-              py: 2,
-              borderRadius: 8,
-              transition: "all 0.2s",
-              _hover: { bgColor: "gray.200", _osDark: { bgColor: "gray.600" } },
-            })}
-            href={href}
-            key={href}
-          >
-            {label}
-          </Link>
-        ))}
+        <Menus />
       </div>
     </header>
   );
