@@ -14,8 +14,6 @@ export default function Menus() {
     { href: "/settings", label: "設定" },
   ];
 
-  console.log(pathname);
-
   return (
     <>
       {links.map(({ href, label }) => (
