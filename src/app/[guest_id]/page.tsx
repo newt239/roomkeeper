@@ -17,8 +17,6 @@ export default async function StudentIDPage({ params }: { params: Params }) {
     .from(guestsTable)
     .where(eq(guestsTable.id, params.guest_id));
 
-  console.log(guests);
-
   const activities = await db
     .select()
     .from(activitiesTable)

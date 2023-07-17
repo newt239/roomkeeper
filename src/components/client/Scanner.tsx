@@ -76,7 +76,6 @@ export default function Scanner() {
 
   const onClickChangeCameraIcon = () => {
     getCameraDeviceList();
-    console.log(currentDeviceId);
     if (deviceList.length === 2) {
       const newCurrentDevice = deviceList.find((v) => {
         if (v.deviceId !== currentDeviceId) {

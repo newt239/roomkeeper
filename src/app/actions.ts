@@ -25,7 +25,6 @@ export async function importGuests(guests: string[][]) {
       };
     })
     .filter((guest) => typeof guest.id === "string" && guest.id !== "");
-  console.log(guestList);
   if (guestList.length !== 0) {
     const result = await db.insert(guestsTable).values(guestList);
     return `${result.rowCount}件のデータをインポートしました。`;
