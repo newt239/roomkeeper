@@ -40,8 +40,12 @@ export default function Scanner() {
             w: "100%",
             h: "100%",
             bgColor: "gray.100",
+            borderStyle: "solid",
+            borderWidth: 2,
+            borderColor: "gray.200",
+            shadow: "xl",
             borderRadius: 16,
-            _osDark: { bgColor: "gray.700" },
+            _osDark: { bgColor: "gray.700", borderColor: "gray.600" },
           })}
         >
           {cameraState && (
