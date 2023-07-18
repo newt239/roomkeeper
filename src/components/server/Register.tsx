@@ -16,7 +16,7 @@ export default async function Register(params: Params) {
   async function addActivity(_formData: FormData) {
     "use server";
 
-    const result = await db
+    const activities = await db
       .insert(activitiesTable)
       .values({
         guest_id: params.guest_id,
@@ -25,7 +25,7 @@ export default async function Register(params: Params) {
         available: true,
       })
       .returning();
-    if (result.length === 1) {
+    if (activities.length === 1) {
       redirect("/");
     }
   }

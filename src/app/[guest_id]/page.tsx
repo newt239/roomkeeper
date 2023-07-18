@@ -35,7 +35,7 @@ export default async function StudentIDPage({ params }: { params: Params }) {
       {guests.length === 1 ? (
         <Register
           activity_type={activity_type}
-          enter_at={activities[0].timestamp}
+          enter_at={activities.length === 0 ? null : activities[0].timestamp}
           guest_id={guests[0].id}
         />
       ) : (
