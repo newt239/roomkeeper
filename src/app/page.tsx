@@ -1,10 +1,9 @@
-"use client";
-
 import Title from "@/components/common/Title";
 
-const APP_VERSION = "0.1.0";
+const APP_VERSION = "0.2.0";
+const LAST_UPDATE = "2023/07/30 15:00";
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
     <div>
       <Title level="h2">簡易入退室記録システム</Title>
@@ -32,6 +31,12 @@ export default function HomePage() {
       <Title level="h3">アプリ情報</Title>
       <ul>
         <li>v{APP_VERSION}</li>
+        <li>最終更新: {LAST_UPDATE}</li>
+        <li>
+          <a href="https://github.com/newt239/roomkeeper" target="_blank">
+            newt239/roomkeeper - GitHub
+          </a>
+        </li>
       </ul>
     </div>
   );
