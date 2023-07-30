@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { eq } from "drizzle-orm";
@@ -100,4 +101,8 @@ export async function deleteAllActivities() {
   const result = await db.delete(activitiesTable);
   revalidatePath("/history");
   return `${result.rowCount}件の入退室記録を削除しました。`;
+}
+
+export async function saveToCookie(key: string, value: string) {
+  cookies().set(key, value);
 }

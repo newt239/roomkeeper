@@ -6,10 +6,11 @@ import dayjs from "dayjs";
 
 import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
-import { addActivity } from "@/utils/actions";
+import { addActivity, saveToCookie } from "@/utils/actions";
 import { css } from "@panda/css";
 
 type Props = {
+  default_event_id: string;
   guest_id: string;
   activity_type: "enter" | "exit";
   enter_at: Date | null;
@@ -18,15 +19,11 @@ type Props = {
 
 export default function Register(params: Props) {
   const [_isPending, startTransition] = useTransition();
-  const [eventId, setEventId] = useState("default");
-
-  const defaultEvent =
-    (typeof window !== "undefined" && localStorage.getItem("defaultEvent")) ||
-    "default";
+  const [eventId, setEventId] = useState(params.default_event_id);
 
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setEventId(e.target.value);
-    localStorage.setItem("defaultEvent", e.target.value);
+    (async () => await saveToCookie("default_event_id", e.target.value))();
   };
 
   return (
@@ -49,15 +46,7 @@ export default function Register(params: Props) {
       >
         <Title level="h3">イベント</Title>
         <div>
-          <select
-            defaultValue={
-              params.events.map((event) => event.id).includes(defaultEvent)
-                ? defaultEvent
-                : "default"
-            }
-            name="event_name"
-            onChange={onSelectChange}
-          >
+          <select name="event_name" onChange={onSelectChange} value={eventId}>
             {params.events.map((event) => (
               <option key={event.id} value={event.id}>
                 {event.name}

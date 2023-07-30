@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BIZ_UDPGothic } from "next/font/google";
+import { cookies } from "next/headers";
 
 import Header from "@/components/feature/Header";
 import Scanner from "@/components/feature/Scanner";
@@ -22,6 +23,10 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const cookieStore = cookies();
+  const cameraDeviceId = cookieStore.get("camera_device_id");
+  const reverseCamera = cookieStore.get("reverse_camera");
+
   return (
     <html lang="ja">
       <body className={bizUDPGpthic.className}>
@@ -49,7 +54,14 @@ export default async function RootLayout({
                 },
               })}
             >
-              <Scanner />
+              <Scanner
+                defaultCameraDeviceId={(cameraDeviceId?.value || "") as string}
+                defaultReverseCamera={
+                  ((reverseCamera?.value || "") as string) === "true"
+                    ? false
+                    : true
+                }
+              />
             </div>
             <div
               className={css({

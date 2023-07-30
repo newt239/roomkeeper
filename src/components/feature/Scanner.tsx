@@ -7,6 +7,7 @@ import { IconCameraRotate } from "@tabler/icons-react";
 import { QrReader } from "react-qr-reader";
 
 import Input from "@/components/common/Input";
+import { saveToCookie } from "@/utils/actions";
 import { css } from "@panda/css";
 
 type DeviceProps = {
@@ -14,12 +15,23 @@ type DeviceProps = {
   label: string;
 };
 
-export default function Scanner() {
+type Props = {
+  defaultCameraDeviceId: string;
+  defaultReverseCamera: boolean;
+};
+
+export default function Scanner({
+  defaultCameraDeviceId,
+  defaultReverseCamera,
+}: Props) {
   const router = useRouter();
   const [cameraState, setCameraState] = useState<boolean>(false);
-  const [currentDeviceId, setCurrentDeviceId] = useState<string>();
+  const [currentDeviceId, setCurrentDeviceId] = useState<string>(
+    defaultCameraDeviceId
+  );
+  const [reverseCamera, setReverseCamera] =
+    useState<boolean>(defaultReverseCamera);
   const [deviceList, setDeviceList] = useState<DeviceProps[]>([]);
-  const [reverseCamera, setReverseCamera] = useState<boolean>(false);
 
   const getCameraDeviceList = () => {
     navigator.mediaDevices
@@ -43,12 +55,6 @@ export default function Scanner() {
   };
 
   useEffect(() => {
-    const savedCurrentCameraDeviceId =
-      localStorage.getItem("currentCameraDeviceId") || "";
-    setCurrentDeviceId(savedCurrentCameraDeviceId);
-    setReverseCamera(
-      localStorage.getItem("reverseCamera") === "false" ? false : true
-    );
     setCameraState(true);
     getCameraDeviceList();
   }, []);
@@ -78,10 +84,8 @@ export default function Scanner() {
         }
       });
       if (newCurrentDevice) {
-        localStorage.setItem(
-          "currentCameraDeviceId",
-          newCurrentDevice.deviceId
-        );
+        (async () =>
+          await saveToCookie("camera_device_id", newCurrentDevice.deviceId))();
         setCurrentDeviceId(newCurrentDevice.deviceId);
         setRefreshQrReader(false);
       }
@@ -111,7 +115,14 @@ export default function Scanner() {
         <Input
           checked={reverseCamera}
           id="switch"
-          onChange={() => setReverseCamera((v) => !v)}
+          onChange={() => {
+            (async () =>
+              saveToCookie(
+                "reverse_camera",
+                reverseCamera ? "false" : "true"
+              ))();
+            setReverseCamera((v) => !v);
+          }}
           type="checkbox"
         />
         カメラを反転する
