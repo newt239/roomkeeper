@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
@@ -9,6 +9,7 @@ import { checkGuestId } from "@/utils/actions";
 import { css } from "@panda/css";
 
 export default function DirectInput() {
+  const [_isPending, startTransition] = useTransition();
   const [inputId, setInputId] = useState<string>("");
 
   return (
@@ -31,8 +32,8 @@ export default function DirectInput() {
         />
         <Button
           disabled={inputId.length === 0}
-          onClick={async () => {
-            await checkGuestId(inputId);
+          onClick={() => {
+            startTransition(async () => await checkGuestId(inputId));
           }}
           type="submit"
         >
