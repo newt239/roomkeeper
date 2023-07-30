@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "drizzle-kit generate:pg --config drizzle.config.ts",
+    "db:migrate": "drizzle-kit generate:pg --config drizzle.config.ts",
+    "db:drop": "drizzle-kit drop --config drizzle.config.ts",
     "prepare": "panda codegen"
   },
   "dependencies": {
