@@ -18,13 +18,14 @@ type Props = {
 
 export default function Register(params: Props) {
   const [_isPending, startTransition] = useTransition();
-  const [eventId, setEventId] = useState("");
+  const [eventId, setEventId] = useState("default");
 
   const defaultEvent =
     (typeof window !== "undefined" && localStorage.getItem("defaultEvent")) ||
     "default";
 
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setEventId(e.target.value);
     localStorage.setItem("defaultEvent", e.target.value);
   };
 
@@ -57,9 +58,6 @@ export default function Register(params: Props) {
             name="event_name"
             onChange={onSelectChange}
           >
-            <option key="default" value="default">
-              未設定
-            </option>
             {params.events.map((event) => (
               <option key={event.id} value={event.id}>
                 {event.name}

@@ -11,9 +11,6 @@ export default async function EventsPage() {
     <div>
       <Title level="h2">滞在状況</Title>
       <ul>
-        <li>
-          <Link href="events/default">未設定</Link>
-        </li>
         {events.map((event) => (
           <li key={event.id}>
             <Link href={`events/${event.id}`}>{event.name}</Link>
