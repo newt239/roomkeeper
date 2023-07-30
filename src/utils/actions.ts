@@ -10,11 +10,7 @@ import { db } from "@/db/connect";
 import { activitiesTable, eventsTable, guestsTable } from "@/db/schema";
 
 export async function checkGuestId(user_id: string) {
-  if (user_id === "") {
-    return "ユーザーIDが空です。";
-  } else {
-    redirect(`/${user_id}`);
-  }
+  redirect(`/${user_id}`);
 }
 
 export async function importGuests(guests: string[][]) {
