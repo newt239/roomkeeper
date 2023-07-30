@@ -5,8 +5,8 @@ type Props = JSX.IntrinsicElements["button"];
 export default function Button({ children, className, ...rest }: Props) {
   const rootClassName = css({
     p: 2,
+    px: 4,
     borderRadius: 4,
-    w: "25%",
     minW: 100,
     cursor: "pointer",
     bgColor: "blue.500",

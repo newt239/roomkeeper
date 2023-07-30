@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { nanoid } from "nanoid";
 
 import { db } from "@/db/connect";
-import { eventsTable, guestsTable } from "@/db/schema";
+import { activitiesTable, eventsTable, guestsTable } from "@/db/schema";
 
 export async function checkUserId(formData: FormData) {
   const userId = formData.get("user_id");
@@ -49,4 +49,10 @@ export async function createEvent(formData: FormData) {
   });
   revalidatePath(`/settings`);
   return `${name}というイベントを作成しました。`;
+}
+
+export async function deleteAllActivities() {
+  const result = await db.delete(activitiesTable);
+  revalidatePath(`/history`);
+  return `${result.rowCount}件の入退室記録を削除しました。`;
 }
