@@ -18,17 +18,7 @@ export default function Scanner() {
   const [cameraState, setCameraState] = useState<boolean>(false);
   const [currentDeviceId, setCurrentDeviceId] = useState<string>();
   const [deviceList, setDeviceList] = useState<DeviceProps[]>([]);
-  const [reverseCamera, setReverseCamera] = useState<boolean>(
-    localStorage.getItem("reverseCamera") === "false" ? false : true
-  );
-
-  useEffect(() => {
-    const savedCurrentCameraDeviceId =
-      (typeof window !== "undefined" &&
-        localStorage.getItem("currentCameraDeviceId")) ||
-      "";
-    setCurrentDeviceId(savedCurrentCameraDeviceId);
-  });
+  const [reverseCamera, setReverseCamera] = useState<boolean>(false);
 
   const getCameraDeviceList = () => {
     navigator.mediaDevices
@@ -52,6 +42,12 @@ export default function Scanner() {
   };
 
   useEffect(() => {
+    const savedCurrentCameraDeviceId =
+      localStorage.getItem("currentCameraDeviceId") || "";
+    setCurrentDeviceId(savedCurrentCameraDeviceId);
+    setReverseCamera(
+      localStorage.getItem("reverseCamera") === "false" ? false : true
+    );
     setCameraState(true);
     getCameraDeviceList();
   }, []);
