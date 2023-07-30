@@ -65,13 +65,12 @@ export default function Register(params: Props) {
         >
           <Button
             onClick={() =>
-              startTransition(() => {
-                (async () =>
-                  await addActivity({
-                    event_id: eventId,
-                    guest_id: params.guest_id,
-                    type: params.activity_type,
-                  }))();
+              startTransition(async () => {
+                await addActivity({
+                  event_id: eventId,
+                  guest_id: params.guest_id,
+                  type: params.activity_type,
+                });
               })
             }
           >

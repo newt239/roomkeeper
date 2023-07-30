@@ -29,8 +29,8 @@ export default function ActivityRow({ activity, latestIdList }: Props) {
         {latestIdList.includes(activity.id) && activity.type === "enter" && (
           <Button
             onClick={() =>
-              startTransition(() => {
-                (async () => await deleteActivity(activity.id))();
+              startTransition(async () => {
+                await deleteActivity(activity.id);
               })
             }
           >

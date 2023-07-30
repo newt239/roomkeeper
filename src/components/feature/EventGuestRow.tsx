@@ -27,8 +27,8 @@ export default function EventGuestRow({ event_id, guest }: Props) {
       <td>
         <Button
           onClick={() =>
-            startTransition(() => {
-              (async () => await executeExitAction(guest.guest_id, event_id))();
+            startTransition(async () => {
+              await executeExitAction(guest.guest_id, event_id);
             })
           }
         >

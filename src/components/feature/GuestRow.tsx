@@ -20,8 +20,8 @@ export default function EachGuest({ guest_id, guest_name }: Props) {
       <td>
         <Button
           onClick={() =>
-            startTransition(() => {
-              (async () => await deleteGuest(guest_id))();
+            startTransition(async () => {
+              await deleteGuest(guest_id);
             })
           }
         >
