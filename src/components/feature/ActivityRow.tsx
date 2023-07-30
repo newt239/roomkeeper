@@ -1,5 +1,7 @@
 "use client";
 
+import { useTransition } from "react";
+
 import dayjs from "dayjs";
 
 import Button from "@/components/common/Button";
@@ -16,6 +18,8 @@ type Props = {
 };
 
 export default function ActivityRow({ activity, latestIdList }: Props) {
+  const [_isPending, startTransition] = useTransition();
+
   return (
     <tr>
       <td>{activity.guest_id}</td>
@@ -24,10 +28,11 @@ export default function ActivityRow({ activity, latestIdList }: Props) {
       <td>
         {latestIdList.includes(activity.id) && activity.type === "enter" && (
           <Button
-            onClick={async () => {
-              await deleteActivity(activity.id);
-            }}
-            type="submit"
+            onClick={() =>
+              startTransition(() => {
+                (async () => await deleteActivity(activity.id))();
+              })
+            }
           >
             取り消す
           </Button>

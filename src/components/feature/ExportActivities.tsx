@@ -18,8 +18,7 @@ type Props = {
 
 export default function ExportActivities({ activities }: Props) {
   const handlerClickDownloadButton = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    format: "xlsx" | "csv"
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
 
@@ -43,7 +42,7 @@ export default function ExportActivities({ activities }: Props) {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "sampleData." + format;
+    a.download = "sampleData.csv";
     a.click();
     a.remove();
   };
@@ -51,9 +50,7 @@ export default function ExportActivities({ activities }: Props) {
   return (
     <div>
       <Title level="h3">エクスポート</Title>
-      <Button onClick={(e) => handlerClickDownloadButton(e, "csv")}>
-        CSV形式
-      </Button>
+      <Button onClick={handlerClickDownloadButton}>CSV形式</Button>
     </div>
   );
 }

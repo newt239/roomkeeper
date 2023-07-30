@@ -9,10 +9,6 @@ import { nanoid } from "nanoid";
 import { db } from "@/db/connect";
 import { activitiesTable, eventsTable, guestsTable } from "@/db/schema";
 
-export async function checkGuestId(user_id: string) {
-  redirect(`/${user_id}`);
-}
-
 export async function importGuests(guests: string[][]) {
   const guestList = guests
     .filter((guest) => guest.length >= 2)

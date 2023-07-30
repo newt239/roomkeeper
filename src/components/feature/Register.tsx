@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useTransition } from "react";
+
 import dayjs from "dayjs";
 
 import Button from "@/components/common/Button";
@@ -7,14 +9,17 @@ import Title from "@/components/common/Title";
 import { addActivity } from "@/utils/actions";
 import { css } from "@panda/css";
 
-type Params = {
+type Props = {
   guest_id: string;
   activity_type: "enter" | "exit";
   enter_at: Date | null;
   events: { id: string; name: string }[];
 };
 
-export default function Register(params: Params) {
+export default function Register(params: Props) {
+  const [_isPending, startTransition] = useTransition();
+  const [eventId, setEventId] = useState("");
+
   const defaultEvent =
     (typeof window !== "undefined" && localStorage.getItem("defaultEvent")) ||
     "default";
@@ -35,15 +40,7 @@ export default function Register(params: Params) {
           </>
         )}
       </div>
-      <form
-        action={async (formData: FormData) => {
-          const event_id = formData.get("event_name") as string;
-          await addActivity({
-            event_id,
-            guest_id: params.guest_id,
-            type: params.activity_type,
-          });
-        }}
+      <div
         className={css({
           w: "100%",
           mt: 4,
@@ -79,11 +76,22 @@ export default function Register(params: Params) {
             gap: 2,
           })}
         >
-          <Button type="submit">
+          <Button
+            onClick={() =>
+              startTransition(() => {
+                (async () =>
+                  await addActivity({
+                    event_id: eventId,
+                    guest_id: params.guest_id,
+                    type: params.activity_type,
+                  }))();
+              })
+            }
+          >
             {params.activity_type === "enter" ? "入室" : "退室"}
           </Button>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

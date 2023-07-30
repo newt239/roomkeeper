@@ -8,15 +8,11 @@ export default function resetActivities() {
   return (
     <div>
       <Title level="h3">データリセット</Title>
-      <Button
-        onClick={async () => {
-          await deleteAllActivities();
-        }}
-        type="submit"
-        variant="danger"
-      >
-        リセットする
-      </Button>
+      <form action={deleteAllActivities}>
+        <Button type="submit" variant="danger">
+          リセットする
+        </Button>
+      </form>
     </div>
   );
 }

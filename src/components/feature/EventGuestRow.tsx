@@ -1,5 +1,7 @@
 "use client";
 
+import { useTransition } from "react";
+
 import dayjs from "dayjs";
 
 import Button from "@/components/common/Button";
@@ -15,6 +17,8 @@ type Props = {
 };
 
 export default function EventGuestRow({ event_id, guest }: Props) {
+  const [_isPending, startTransition] = useTransition();
+
   return (
     <tr key={guest.guest_id}>
       <td>{guest.guest_id}</td>
@@ -22,10 +26,11 @@ export default function EventGuestRow({ event_id, guest }: Props) {
       <td>{dayjs(guest.enter_at).format("MM/DD HH:mm:ss")}</td>
       <td>
         <Button
-          onClick={async () => {
-            await executeExitAction(guest.guest_id, event_id);
-          }}
-          type="submit"
+          onClick={() =>
+            startTransition(() => {
+              (async () => await executeExitAction(guest.guest_id, event_id))();
+            })
+          }
         >
           退室する
         </Button>
