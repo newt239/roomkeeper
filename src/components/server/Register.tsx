@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import dayjs from "dayjs";
+import { nanoid } from "nanoid";
 
 import { db } from "@/db/connect";
 import { activitiesTable } from "@/db/schema";
@@ -19,7 +20,9 @@ export default async function Register(params: Params) {
     const activities = await db
       .insert(activitiesTable)
       .values({
+        id: nanoid(),
         guest_id: params.guest_id,
+        event_id: "aaa",
         type: params.activity_type,
         timestamp: new Date(),
         available: true,

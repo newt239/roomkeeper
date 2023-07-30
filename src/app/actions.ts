@@ -1,9 +1,12 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { nanoid } from "nanoid";
+
 import { db } from "@/db/connect";
-import { guestsTable } from "@/db/schema";
+import { eventsTable, guestsTable } from "@/db/schema";
 
 export async function checkUserId(formData: FormData) {
   const userId = formData.get("user_id");
@@ -31,4 +34,19 @@ export async function importGuests(guests: string[][]) {
   } else {
     return "エラーが発生しました。データ型が不適切か、すでにデータベースに同じIDが登録されている可能性があります。";
   }
+}
+
+export async function createEvent(formData: FormData) {
+  const name = formData.get("event_name");
+  const eventId = nanoid();
+  if (typeof name !== "string") {
+    return "イベント名が不適切です。";
+  }
+  const result = await db.insert(eventsTable).values({
+    id: eventId,
+    name,
+    available: true,
+  });
+  revalidatePath(`/settings`);
+  return `${name}というイベントを作成しました。`;
 }

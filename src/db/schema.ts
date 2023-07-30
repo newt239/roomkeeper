@@ -1,4 +1,4 @@
-import { boolean, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 export const guestsTable = pgTable("guests", {
   id: text("id").primaryKey(),
@@ -7,17 +7,17 @@ export const guestsTable = pgTable("guests", {
 });
 
 export const eventsTable = pgTable("events", {
-  id: serial("id").primaryKey(),
+  id: text("id").primaryKey(),
   name: text("name").notNull(),
   available: boolean("available").default(true),
 });
 
 export const activitiesTable = pgTable("activities", {
-  id: serial("id").primaryKey(),
+  id: text("id").primaryKey(),
   guest_id: text("guest_id")
     .notNull()
     .references(() => guestsTable.id),
-  event_id: serial("event_id")
+  event_id: text("event_id")
     .notNull()
     .references(() => eventsTable.id),
   type: text("type").default("enter"),
