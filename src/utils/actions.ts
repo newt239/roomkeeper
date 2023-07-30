@@ -1,8 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
@@ -30,13 +27,11 @@ export async function importGuests(guests: string[][]) {
 
 export async function deleteGuest(id: string) {
   const result = await db.delete(guestsTable).where(eq(guestsTable.id, id));
-  revalidatePath(`/settings/guest`);
   return `${result.rowCount}件のゲストを削除しました。`;
 }
 
 export async function deleteAllGuests() {
   const result = await db.delete(guestsTable);
-  revalidatePath(`/settings/guest`);
   return `${result.rowCount}件のゲストを削除しました。`;
 }
 
@@ -49,35 +44,25 @@ export async function addActivity({
   guest_id: string;
   type: "enter" | "exit";
 }) {
-  const activities = await db
-    .insert(activitiesTable)
-    .values({
-      id: nanoid(),
-      guest_id,
-      event_id,
-      type,
-      timestamp: new Date(),
-      available: true,
-    })
-    .returning();
-  if (activities.length === 1) {
-    redirect(`/scan/${guest_id},${type},success`);
-  }
+  await db.insert(activitiesTable).values({
+    id: nanoid(),
+    guest_id,
+    event_id,
+    type,
+    timestamp: new Date(),
+    available: true,
+  });
 }
 
 export async function executeExitAction(guest_id: string, event_id: string) {
-  await db
-    .insert(activitiesTable)
-    .values({
-      id: nanoid(),
-      guest_id,
-      event_id,
-      type: "exit",
-      timestamp: new Date(),
-      available: true,
-    })
-    .returning();
-  revalidatePath(`/events/${event_id}`);
+  await db.insert(activitiesTable).values({
+    id: nanoid(),
+    guest_id,
+    event_id,
+    type: "exit",
+    timestamp: new Date(),
+    available: true,
+  });
 }
 
 export async function createEvent(formData: FormData) {
@@ -91,7 +76,6 @@ export async function createEvent(formData: FormData) {
     name,
     available: true,
   });
-  revalidatePath(`/settings`);
   return `${name}というイベントを作成しました。`;
 }
 
@@ -99,12 +83,10 @@ export async function deleteActivity(id: string) {
   const result = await db
     .delete(activitiesTable)
     .where(eq(activitiesTable.id, id));
-  revalidatePath(`/history`);
   return `${result.rowCount}件の入退室記録を削除しました。`;
 }
 
 export async function deleteAllActivities() {
   const result = await db.delete(activitiesTable);
-  revalidatePath(`/history`);
   return `${result.rowCount}件の入退室記録を削除しました。`;
 }
