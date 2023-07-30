@@ -1,15 +1,14 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import Link from "next/link";
+import { useState } from "react";
 
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Title from "@/components/common/Title";
-import { checkGuestId } from "@/utils/actions";
 import { css } from "@panda/css";
 
 export default function DirectInput() {
-  const [_isPending, startTransition] = useTransition();
   const [inputId, setInputId] = useState<string>("");
 
   return (
@@ -30,15 +29,9 @@ export default function DirectInput() {
           type="text"
           value={inputId}
         />
-        <Button
-          disabled={inputId.length === 0}
-          onClick={() => {
-            startTransition(async () => await checkGuestId(inputId));
-          }}
-          type="submit"
-        >
-          検索
-        </Button>
+        <Link href={`/${inputId}`}>
+          <Button disabled={inputId.length === 0}>検索</Button>
+        </Link>
       </div>
     </div>
   );
