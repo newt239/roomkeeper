@@ -56,7 +56,9 @@ export default async function HistoryPage() {
       <ExportActivities activities={activities} />
       <Title level="h3">データリセット</Title>
       <form action={deleteAllActivities}>
-        <Button type="submit">リセットする</Button>
+        <Button type="submit" variant="danger">
+          リセットする
+        </Button>
       </form>
     </div>
   );

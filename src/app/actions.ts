@@ -37,6 +37,18 @@ export async function importGuests(guests: string[][]) {
   }
 }
 
+export async function deleteGuest(id: string) {
+  const result = await db.delete(guestsTable).where(eq(guestsTable.id, id));
+  revalidatePath(`/settings/guest`);
+  return `${result.rowCount}件のゲストを削除しました。`;
+}
+
+export async function deleteAllGuests() {
+  const result = await db.delete(guestsTable);
+  revalidatePath(`/settings/guest`);
+  return `${result.rowCount}件のゲストを削除しました。`;
+}
+
 export async function addActivity({
   event_id,
   guest_id,
