@@ -14,6 +14,22 @@ const globalCss = defineGlobalStyles({
     listStyle: "disc",
     paddingLeft: "1rem",
   },
+  "th, td": {
+    py: 2,
+    px: 4,
+    borderStyle: "solid",
+    borderColor: "gray.100",
+    borderWidth: "1px",
+    _osDark: {
+      borderColor: "gray.800",
+    },
+  },
+  th: {
+    backgroundColor: "gray.100",
+    _osDark: {
+      backgroundColor: "gray.800",
+    },
+  },
 });
 
 export default defineConfig({

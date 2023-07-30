@@ -14,6 +14,7 @@ export default function Title({ level, children }: Props) {
             fontSize: "4xl",
             fontWeight: 700,
             mt: 4,
+            mb: 2,
           })}
         >
           {children}

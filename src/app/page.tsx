@@ -15,7 +15,6 @@ export default function HomePage() {
   return (
     <div
       className={css({
-        m: 4,
         display: "flex",
         flexDirection: "column",
       })}

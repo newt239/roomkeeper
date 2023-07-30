@@ -1,8 +1,10 @@
+import dayjs from "dayjs";
 import { eq, sql } from "drizzle-orm";
 
 import Title from "@/components/common/Title";
 import { db } from "@/db/connect";
 import { eventsTable } from "@/db/schema";
+import { css } from "@panda/css";
 
 type Params = {
   event_id: string;
@@ -47,17 +49,31 @@ export default async function EventIdPage({ params }: { params: Params }) {
 
   return (
     <div>
-      <Title level="h2">{events[0].name}</Title>
+      <Title level="h2">滞在状況</Title>
+      <Title level="h3">{events[0].name}</Title>
       {result.rowCount === 0 ? (
         <p>現在、滞在中のゲストはいません。</p>
       ) : (
-        <ul>
-          {guests.map((guest) => (
-            <li key={guest.guest_id}>
-              {guest.name} ({guest.guest_id})
-            </li>
-          ))}
-        </ul>
+        <table className={css({ mt: 4 })}>
+          <thead>
+            <tr>
+              <th>ゲストID</th>
+              <th>ゲスト名</th>
+              <th>入室時刻</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {guests.map((guest) => (
+              <tr key={guest.guest_id}>
+                <td>{guest.guest_id}</td>
+                <td>{guest.name}</td>
+                <td>{dayjs(guest.enter_at).format("MM/DD HH:mm:ss")}</td>
+                <td></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );

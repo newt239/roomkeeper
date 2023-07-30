@@ -7,11 +7,7 @@ import { eventsTable } from "@/db/schema";
 import { css } from "@panda/css";
 
 export default async function EventSettingsPage() {
-  const events = await db
-    .select()
-    .from(eventsTable)
-    .orderBy(eventsTable.name)
-    .limit(20);
+  const events = await db.select().from(eventsTable).orderBy(eventsTable.name);
 
   return (
     <div>
