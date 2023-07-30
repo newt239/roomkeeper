@@ -20,11 +20,18 @@ export default function Menus() {
         <Link
           aria-current={pathname === href ? "page" : undefined}
           className={css({
+            color: "inherit",
+            textDecoration: "none",
             px: 4,
             py: 2,
             borderRadius: 8,
             transition: "all 0.2s",
-            _hover: { bgColor: "gray.200", _osDark: { bgColor: "gray.600" } },
+            _hover: {
+              bgColor: "gray.200",
+              _osDark: {
+                bgColor: "gray.600",
+              },
+            },
             _currentPage: {
               color: "green.500",
             },

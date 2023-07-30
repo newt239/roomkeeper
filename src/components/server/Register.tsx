@@ -3,6 +3,9 @@ import { redirect } from "next/navigation";
 import dayjs from "dayjs";
 import { nanoid } from "nanoid";
 
+import Button from "../common/Button";
+import Title from "../common/Title";
+
 import { db } from "@/db/connect";
 import { activitiesTable } from "@/db/schema";
 import { css } from "@panda/css";
@@ -11,6 +14,7 @@ type Params = {
   guest_id: string;
   activity_type: "enter" | "exit";
   enter_at: Date | null;
+  events: { id: string; name: string }[];
 };
 
 export default async function Register(params: Params) {
@@ -36,25 +40,11 @@ export default async function Register(params: Params) {
   return (
     <div>
       <div>
-        <h3
-          className={css({
-            fontSize: "2xl",
-            mt: 4,
-          })}
-        >
-          ゲストID
-        </h3>
+        <Title level="h3">ゲストID</Title>
         <p>{params.guest_id}</p>
         {params.enter_at && (
           <>
-            <h3
-              className={css({
-                fontSize: "2xl",
-                mt: 4,
-              })}
-            >
-              入室時刻
-            </h3>
+            <Title level="h3">入室時刻</Title>
             <p>{dayjs(params.enter_at).format("MM月DD日 HH:mm:ss")}</p>
           </>
         )}
@@ -62,37 +52,23 @@ export default async function Register(params: Params) {
       <form
         action={addActivity}
         className={css({
+          w: "100%",
           mt: 4,
         })}
       >
-        <button
-          className={css({
-            mt: 2,
-            p: 2,
-            borderRadius: 4,
-            w: "100%",
-            cursor: "pointer",
-            bgColor: "blue.500",
-            transition: "all 0.2s ease-in-out",
-            _hover: {
-              bgColor: "blue.600",
-            },
-            _focus: {
-              borderColor: "blue.500",
-              boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
-            },
-            _disabled: {
-              bgColor: "gray.300",
-              cursor: "not-allowed",
-              _hover: {
-                bgColor: "gray.300",
-              },
-            },
-          })}
-          type="submit"
-        >
-          {params.activity_type === "exit" ? "入室" : "退室"}記録をつける
-        </button>
+        <Title level="h3">イベント</Title>
+        <div>
+          <select name="event_name">
+            {params.events.map((event) => (
+              <option key={event.id} value={event.id}>
+                {event.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <Button type="submit">
+          {params.activity_type === "exit" ? "入室" : "退室"}
+        </Button>
       </form>
     </div>
   );

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { IconCameraRotate } from "@tabler/icons-react";
 import { QrReader } from "react-qr-reader";
 
 import { css } from "@panda/css";
@@ -158,20 +159,31 @@ export default function Scanner() {
             />
           )}
         </div>
-        <div
+        <button
           className={css({
             position: "absolute",
-            color: "white",
+            color: "black",
             top: 0,
             right: 0,
+            p: 2,
+            m: 1,
+            borderRadius: "1rem",
             transform: "translateZ(0.8px)",
+            transition: "all 0.2s ease",
             cursor: "pointer",
+            _osDark: {
+              color: "white",
+            },
+            _hover: {
+              bgColor: "gray.300",
+              _osDark: { bgColor: "gray.800" },
+            },
           })}
           onClick={onClickChangeCameraIcon}
           title="カメラ切り替え"
         >
-          🔃
-        </div>
+          <IconCameraRotate />
+        </button>
       </div>
     </div>
   );

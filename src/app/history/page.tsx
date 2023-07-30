@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { desc } from "drizzle-orm";
 
+import Title from "@/components/common/Title";
 import { db } from "@/db/connect";
 import { activitiesTable } from "@/db/schema";
 import { css } from "@panda/css";
@@ -14,14 +15,8 @@ export default async function HistoryPage() {
 
   return (
     <div>
-      <h2
-        className={css({
-          fontSize: "3xl",
-          mt: 4,
-        })}
-      >
-        スキャン履歴
-      </h2>
+      <Title level="h2">スキャン履歴</Title>
+      {activities.length === 0 && <p>履歴がありません。</p>}
       <table className={css({ mt: 4 })}>
         <thead>
           <tr>

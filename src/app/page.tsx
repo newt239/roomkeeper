@@ -20,8 +20,7 @@ export default function HomePage() {
         flexDirection: "column",
       })}
     >
-      <p>QRコードをスキャンしてください。</p>
-      <Title level="h3">直接入力する</Title>
+      <Title level="h2">直接入力</Title>
       <form
         action={async (formData) => {
           setError(null);

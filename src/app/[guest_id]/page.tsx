@@ -4,7 +4,7 @@ import { desc, eq } from "drizzle-orm";
 
 import Register from "@/components/server/Register";
 import { db } from "@/db/connect";
-import { activitiesTable, guestsTable } from "@/db/schema";
+import { activitiesTable, eventsTable, guestsTable } from "@/db/schema";
 import { css } from "@panda/css";
 
 type Params = {
@@ -30,12 +30,22 @@ export default async function StudentIDPage({ params }: { params: Params }) {
       ? "exit"
       : "enter";
 
+  const events = await db
+    .select({
+      id: eventsTable.id,
+      name: eventsTable.name,
+    })
+    .from(eventsTable)
+    .orderBy(desc(eventsTable.name))
+    .limit(20);
+
   return (
     <div>
       {guests.length === 1 ? (
         <Register
           activity_type={activity_type}
           enter_at={activities.length === 0 ? null : activities[0].timestamp}
+          events={events}
           guest_id={guests[0].id}
         />
       ) : (
