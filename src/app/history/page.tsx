@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { desc } from "drizzle-orm";
 
+import ExportActivities from "@/components/client/ExportActivities";
 import Title from "@/components/common/Title";
 import { db } from "@/db/connect";
 import { activitiesTable } from "@/db/schema";
@@ -17,6 +18,8 @@ export default async function HistoryPage() {
     <div>
       <Title level="h2">スキャン履歴</Title>
       {activities.length === 0 && <p>履歴がありません。</p>}
+      <ExportActivities activities={activities} />
+      <Title level="h3">一覧</Title>
       <table className={css({ mt: 4 })}>
         <thead>
           <tr>

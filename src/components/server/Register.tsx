@@ -18,15 +18,16 @@ type Params = {
 };
 
 export default async function Register(params: Params) {
-  async function addActivity(_formData: FormData) {
+  async function addActivity(formData: FormData) {
     "use server";
 
+    const event_id = formData.get("event_name") as string;
     const activities = await db
       .insert(activitiesTable)
       .values({
         id: nanoid(),
         guest_id: params.guest_id,
-        event_id: "aaa",
+        event_id,
         type: params.activity_type,
         timestamp: new Date(),
         available: true,

@@ -20,7 +20,7 @@ export const activitiesTable = pgTable("activities", {
   event_id: text("event_id")
     .notNull()
     .references(() => eventsTable.id),
-  type: text("type").default("enter"),
-  timestamp: timestamp("timestamp").defaultNow(),
-  available: boolean("available"),
+  type: text("type").notNull().default("enter"),
+  timestamp: timestamp("timestamp").notNull().defaultNow(),
+  available: boolean("available").notNull().default(true),
 });
