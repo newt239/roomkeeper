@@ -22,11 +22,15 @@ export async function importGuests(guests: string[][]) {
     })
     .filter((guest) => typeof guest.id === "string" && guest.id !== "");
   if (guestList.length !== 0) {
-    const result = await db.insert(guestsTable).values(guestList);
-    revalidatePath("/settings/guests");
-    return `${result.rowCount}件のデータをインポートしました。`;
+    try {
+      const result = await db.insert(guestsTable).values(guestList);
+      revalidatePath("/settings/guests");
+      return `${result.rowCount}件のデータをインポートしました。`;
+    } catch (e) {
+      return "エラーが発生しました。データ型が不適切か、すでにデータベースに同じIDが登録されている可能性があります。";
+    }
   } else {
-    return "エラーが発生しました。データ型が不適切か、すでにデータベースに同じIDが登録されている可能性があります。";
+    return "エラーが発生しました。";
   }
 }
 

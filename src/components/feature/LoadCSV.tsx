@@ -5,6 +5,7 @@ import { ChangeEventHandler, useState } from "react";
 import Encoding from "encoding-japanese";
 
 import { importGuests } from "@/utils/actions";
+import { css } from "@panda/css";
 
 export default function LoadCSV() {
   const [message, setMessage] = useState<string | null>(null);
@@ -45,7 +46,7 @@ export default function LoadCSV() {
         タブ区切りのCSVファイルで、1列目にID、2列目に名前を入力してください。
       </p>
       <input accept=".csv" onChange={handleOnChange} type="file" />
-      {message && <p>{message}</p>}
+      {message && <p className={css({ color: "red.500" })}>{message}</p>}
     </div>
   );
 }

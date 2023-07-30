@@ -5,6 +5,7 @@ import LoadCSV from "@/components/feature/LoadCSV";
 import { db } from "@/db/connect";
 import { guestsTable } from "@/db/schema";
 import { deleteAllGuests } from "@/utils/actions";
+import { css } from "@panda/css";
 
 export default async function GuestSettingsPage() {
   const guests = await db
@@ -37,6 +38,9 @@ export default async function GuestSettingsPage() {
         </tbody>
       </table>
       <Title level="h3">データリセット</Title>
+      <p className={css({ mb: 3 })}>
+        すべてのゲストを削除します。この操作は取り消せません。
+      </p>
       <form action={deleteAllGuests}>
         <Button type="submit" variant="danger">
           リセットする
