@@ -46,13 +46,23 @@ export default async function RootLayout({
               className={css({
                 w: "100%",
                 md: {
-                  w: "50%",
+                  w: "40%",
                 },
               })}
             >
               <Scanner />
             </div>
-            <div className={css({ w: "100%", md: { w: "40%", maxW: 400 } })}>
+            <div
+              className={css({
+                w: "100%",
+                md: {
+                  w: "55%",
+                  h: "calc(100vh - 8rem)",
+                  overflowY: "auto",
+                  p: 2,
+                },
+              })}
+            >
               {children}
             </div>
           </div>

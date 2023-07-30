@@ -52,7 +52,7 @@ export default async function EventIdPage({ params }: { params: Params }) {
       <Title level="h2">滞在状況</Title>
       <Title level="h3">{events[0].name}</Title>
       {result.rowCount === 0 ? (
-        <p>現在、滞在中のゲストはいません。</p>
+        <p>現在滞在中のゲストはいません。</p>
       ) : (
         <table className={css({ mt: 4 })}>
           <thead>

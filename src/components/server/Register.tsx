@@ -60,7 +60,7 @@ export default function Register(params: Params) {
             onChange={onSelectChange}
           >
             <option key="default" value="default">
-              デフォルト
+              未設定
             </option>
             {params.events.map((event) => (
               <option key={event.id} value={event.id}>

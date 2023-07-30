@@ -11,7 +11,7 @@ export default async function Header() {
         borderColor: "gray.200",
         m: 4,
         px: 4,
-        py: 2,
+        h: 16,
         borderRadius: 8,
         shadow: "xl",
         display: "flex",

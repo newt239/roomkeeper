@@ -1,8 +1,8 @@
-import dayjs from "dayjs";
 import { desc } from "drizzle-orm";
 
 import { deleteAllActivities } from "../actions";
 
+import ActivityRow from "@/components/client/ActivityRow";
 import ExportActivities from "@/components/client/ExportActivities";
 import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
@@ -15,6 +15,16 @@ export default async function HistoryPage() {
     .select()
     .from(activitiesTable)
     .orderBy(desc(activitiesTable.timestamp));
+  const parsedActivities = activities.reduce(
+    (accumulator, activity) => {
+      if (!accumulator.guestList.includes(activity.guest_id)) {
+        accumulator.idList.push(activity.id);
+        accumulator.guestList.push(activity.guest_id);
+      }
+      return accumulator;
+    },
+    { idList: [], guestList: [] } as { idList: string[]; guestList: string[] }
+  );
 
   return (
     <div>
@@ -29,23 +39,23 @@ export default async function HistoryPage() {
               <th>ゲストID</th>
               <th>種別</th>
               <th>タイムスタンプ</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {activities.map((activity) => (
-              <tr key={activity.id}>
-                <td>{activity.guest_id}</td>
-                <td>{activity.type === "enter" ? "入室" : "退室"}</td>
-                <td>{dayjs(activity.timestamp).format("MM月DD日 HH:mm:ss")}</td>
-              </tr>
+              <ActivityRow
+                activity={activity}
+                key={activity.id}
+                latestIdList={parsedActivities.idList}
+              />
             ))}
           </tbody>
         </table>
       )}
       <ExportActivities activities={activities} />
       <Title level="h3">データリセット</Title>
-      <p>※この操作は取り消せません。</p>
-      <form action={deleteAllActivities} className={css({ mt: 4 })}>
+      <form action={deleteAllActivities}>
         <Button type="submit">リセットする</Button>
       </form>
     </div>

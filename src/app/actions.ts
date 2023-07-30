@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
 import { db } from "@/db/connect";
@@ -74,6 +75,14 @@ export async function createEvent(formData: FormData) {
   });
   revalidatePath(`/settings`);
   return `${name}というイベントを作成しました。`;
+}
+
+export async function deleteActivity(id: string) {
+  const result = await db
+    .delete(activitiesTable)
+    .where(eq(activitiesTable.id, id));
+  revalidatePath(`/history`);
+  return `${result.rowCount}件の入退室記録を削除しました。`;
 }
 
 export async function deleteAllActivities() {
