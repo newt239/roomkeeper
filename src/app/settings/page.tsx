@@ -8,10 +8,10 @@ export default function SettingsPage() {
       <Title level="h2">設定</Title>
       <ul>
         <li>
-          <Link href="/settings/guest">ゲスト管理</Link>
+          <Link href="/settings/guests">ゲスト管理</Link>
         </li>
         <li>
-          <Link href="/settings/event">イベント管理</Link>
+          <Link href="/settings/events">イベント管理</Link>
         </li>
       </ul>
     </div>

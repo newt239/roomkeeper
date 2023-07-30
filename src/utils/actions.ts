@@ -1,5 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
@@ -19,6 +22,7 @@ export async function importGuests(guests: string[][]) {
     .filter((guest) => typeof guest.id === "string" && guest.id !== "");
   if (guestList.length !== 0) {
     const result = await db.insert(guestsTable).values(guestList);
+    revalidatePath("/settings/guests");
     return `${result.rowCount}件のデータをインポートしました。`;
   } else {
     return "エラーが発生しました。データ型が不適切か、すでにデータベースに同じIDが登録されている可能性があります。";
@@ -27,11 +31,13 @@ export async function importGuests(guests: string[][]) {
 
 export async function deleteGuest(id: string) {
   const result = await db.delete(guestsTable).where(eq(guestsTable.id, id));
+  revalidatePath("/settings/guests");
   return `${result.rowCount}件のゲストを削除しました。`;
 }
 
 export async function deleteAllGuests() {
   const result = await db.delete(guestsTable);
+  revalidatePath("/settings/guests");
   return `${result.rowCount}件のゲストを削除しました。`;
 }
 
@@ -52,6 +58,7 @@ export async function addActivity({
     timestamp: new Date(),
     available: true,
   });
+  redirect(`/scan/${guest_id},${type},success`);
 }
 
 export async function executeExitAction(guest_id: string, event_id: string) {
@@ -63,6 +70,7 @@ export async function executeExitAction(guest_id: string, event_id: string) {
     timestamp: new Date(),
     available: true,
   });
+  revalidatePath(`/events/${event_id}`);
 }
 
 export async function createEvent(formData: FormData) {
@@ -76,6 +84,7 @@ export async function createEvent(formData: FormData) {
     name,
     available: true,
   });
+  revalidatePath("/settings/events");
   return `${name}というイベントを作成しました。`;
 }
 
@@ -83,10 +92,12 @@ export async function deleteActivity(id: string) {
   const result = await db
     .delete(activitiesTable)
     .where(eq(activitiesTable.id, id));
+  revalidatePath("/history");
   return `${result.rowCount}件の入退室記録を削除しました。`;
 }
 
 export async function deleteAllActivities() {
   const result = await db.delete(activitiesTable);
+  revalidatePath("/history");
   return `${result.rowCount}件の入退室記録を削除しました。`;
 }
