@@ -14,9 +14,14 @@ export default function EachGuest({ guest_id, guest_name }: Props) {
       <td>{guest_id}</td>
       <td>{guest_name}</td>
       <td>
-        <form action={async () => await deleteGuest(guest_id)}>
-          <Button type="submit">削除</Button>
-        </form>
+        <Button
+          onClick={async () => {
+            await deleteGuest(guest_id);
+          }}
+          type="submit"
+        >
+          削除
+        </Button>
       </td>
     </tr>
   );

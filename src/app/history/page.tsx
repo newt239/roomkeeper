@@ -1,12 +1,11 @@
 import { desc } from "drizzle-orm";
 
-import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
 import ActivityRow from "@/components/feature/ActivityRow";
 import ExportActivities from "@/components/feature/ExportActivities";
+import ResetActivities from "@/components/feature/ResetActivities";
 import { db } from "@/db/connect";
 import { activitiesTable } from "@/db/schema";
-import { deleteAllActivities } from "@/utils/actions";
 import { css } from "@panda/css";
 
 export default async function HistoryPage() {
@@ -14,16 +13,15 @@ export default async function HistoryPage() {
     .select()
     .from(activitiesTable)
     .orderBy(desc(activitiesTable.timestamp));
-  const parsedActivities = activities.reduce(
-    (accumulator, activity) => {
-      if (!accumulator.guestList.includes(activity.guest_id)) {
-        accumulator.idList.push(activity.id);
-        accumulator.guestList.push(activity.guest_id);
-      }
-      return accumulator;
-    },
-    { idList: [], guestList: [] } as { idList: string[]; guestList: string[] }
-  );
+
+  let latestIdList: string[] = [];
+  let guestList: string[] = [];
+  activities.map((activity) => {
+    if (!guestList.includes(activity.guest_id)) {
+      latestIdList.push(activity.id);
+      guestList.push(activity.guest_id);
+    }
+  });
 
   return (
     <div>
@@ -46,19 +44,14 @@ export default async function HistoryPage() {
               <ActivityRow
                 activity={activity}
                 key={activity.id}
-                latestIdList={parsedActivities.idList}
+                latestIdList={latestIdList}
               />
             ))}
           </tbody>
         </table>
       )}
       <ExportActivities activities={activities} />
-      <Title level="h3">データリセット</Title>
-      <form action={deleteAllActivities}>
-        <Button type="submit" variant="danger">
-          リセットする
-        </Button>
-      </form>
+      <ResetActivities />
     </div>
   );
 }

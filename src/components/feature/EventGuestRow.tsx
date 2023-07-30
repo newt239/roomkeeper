@@ -21,11 +21,14 @@ export default function EventGuestRow({ event_id, guest }: Props) {
       <td>{guest.name}</td>
       <td>{dayjs(guest.enter_at).format("MM/DD HH:mm:ss")}</td>
       <td>
-        <form
-          action={async () => await executeExitAction(guest.guest_id, event_id)}
+        <Button
+          onClick={async () => {
+            await executeExitAction(guest.guest_id, event_id);
+          }}
+          type="submit"
         >
-          <Button type="submit">退室する</Button>
-        </form>
+          退室する
+        </Button>
       </td>
     </tr>
   );

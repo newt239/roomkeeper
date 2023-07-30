@@ -11,7 +11,6 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
-    "@next/font": "^13.4.10",
     "@tabler/icons-react": "^2.30.0",
     "@types/node": "20.4.1",
     "@types/react": "18.2.14",

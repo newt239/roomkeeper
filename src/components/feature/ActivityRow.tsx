@@ -23,9 +23,14 @@ export default function ActivityRow({ activity, latestIdList }: Props) {
       <td>{dayjs(activity.timestamp).format("MM/DD HH:mm:ss")}</td>
       <td>
         {latestIdList.includes(activity.id) && activity.type === "enter" && (
-          <form action={async () => await deleteActivity(activity.id)}>
-            <Button type="submit">取り消す</Button>
-          </form>
+          <Button
+            onClick={async () => {
+              await deleteActivity(activity.id);
+            }}
+            type="submit"
+          >
+            取り消す
+          </Button>
         )}
       </td>
     </tr>

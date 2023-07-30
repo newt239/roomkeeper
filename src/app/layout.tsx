@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-
-import { BIZ_UDPGothic } from "@next/font/google";
+import { BIZ_UDPGothic } from "next/font/google";
 
 import Header from "@/components/feature/Header";
 import Scanner from "@/components/feature/Scanner";

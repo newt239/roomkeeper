@@ -14,8 +14,7 @@ export default function DirectInput() {
   return (
     <div>
       <Title level="h2">直接入力</Title>
-      <form
-        action={async () => await checkGuestId(inputId)}
+      <div
         className={css({
           my: 2,
           display: "flex",
@@ -30,10 +29,16 @@ export default function DirectInput() {
           type="text"
           value={inputId}
         />
-        <Button disabled={inputId.length === 0} type="submit">
+        <Button
+          disabled={inputId.length === 0}
+          onClick={async () => {
+            await checkGuestId(inputId);
+          }}
+          type="submit"
+        >
           検索
         </Button>
-      </form>
+      </div>
     </div>
   );
 }
