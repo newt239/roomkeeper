@@ -1,8 +1,7 @@
 "use client";
 
-import Button from "../common/Button";
-
-import { deleteGuest } from "@/app/actions";
+import Button from "@/components/common/Button";
+import { deleteGuest } from "@/utils/actions";
 
 type Props = {
   guest_id: string;

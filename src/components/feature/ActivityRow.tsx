@@ -2,9 +2,8 @@
 
 import dayjs from "dayjs";
 
-import Button from "../common/Button";
-
-import { deleteActivity } from "@/app/actions";
+import Button from "@/components/common/Button";
+import { deleteActivity } from "@/utils/actions";
 
 type Props = {
   activity: {

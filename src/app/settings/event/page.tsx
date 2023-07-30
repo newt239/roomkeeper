@@ -1,9 +1,9 @@
-import { createEvent } from "@/app/actions";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Title from "@/components/common/Title";
 import { db } from "@/db/connect";
 import { eventsTable } from "@/db/schema";
+import { createEvent } from "@/utils/actions";
 import { css } from "@panda/css";
 
 export default async function EventSettingsPage() {

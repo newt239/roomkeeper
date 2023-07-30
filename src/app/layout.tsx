@@ -6,7 +6,7 @@ import Header from "@/components/feature/Header";
 import Scanner from "@/components/feature/Scanner";
 import { css } from "@panda/css";
 
-import "./globals.css";
+import "@/utils/globals.css";
 
 export const metadata: Metadata = {
   title: "Roomkeeper",

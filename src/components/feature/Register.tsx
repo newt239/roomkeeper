@@ -2,10 +2,9 @@
 
 import dayjs from "dayjs";
 
-import Button from "../common/Button";
-import Title from "../common/Title";
-
-import { addActivity } from "@/app/actions";
+import Button from "@/components/common/Button";
+import Title from "@/components/common/Title";
+import { addActivity } from "@/utils/actions";
 import { css } from "@panda/css";
 
 type Params = {

@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 
-import { checkUserId } from "@/app/actions";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Title from "@/components/common/Title";
+import { checkUserId } from "@/utils/actions";
 import { css } from "@panda/css";
 
 export default function DirectInput() {

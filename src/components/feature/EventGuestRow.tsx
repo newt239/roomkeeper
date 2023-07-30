@@ -2,9 +2,8 @@
 
 import dayjs from "dayjs";
 
-import Button from "../common/Button";
-
-import { executeExitAction } from "@/app/actions";
+import Button from "@/components/common/Button";
+import { executeExitAction } from "@/utils/actions";
 
 type Props = {
   event_id: string;

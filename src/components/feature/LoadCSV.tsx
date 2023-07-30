@@ -4,7 +4,7 @@ import { ChangeEventHandler, useState } from "react";
 
 import Encoding from "encoding-japanese";
 
-import { importGuests } from "@/app/actions";
+import { importGuests } from "@/utils/actions";
 
 export default function LoadCSV() {
   const [message, setMessage] = useState<string | null>(null);

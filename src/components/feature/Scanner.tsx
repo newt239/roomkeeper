@@ -6,8 +6,7 @@ import { useEffect, useState } from "react";
 import { IconCameraRotate } from "@tabler/icons-react";
 import { QrReader } from "react-qr-reader";
 
-import Input from "../common/Input";
-
+import Input from "@/components/common/Input";
 import { css } from "@panda/css";
 
 type DeviceProps = {

@@ -2,8 +2,8 @@
 
 import ExcelJS from "exceljs";
 
-import Button from "../common/Button";
-import Title from "../common/Title";
+import Button from "@/components/common/Button";
+import Title from "@/components/common/Title";
 
 type Props = {
   activities: {

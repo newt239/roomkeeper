@@ -1,13 +1,12 @@
 import { desc } from "drizzle-orm";
 
-import { deleteAllActivities } from "../actions";
-
 import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
 import ActivityRow from "@/components/feature/ActivityRow";
 import ExportActivities from "@/components/feature/ExportActivities";
 import { db } from "@/db/connect";
 import { activitiesTable } from "@/db/schema";
+import { deleteAllActivities } from "@/utils/actions";
 import { css } from "@panda/css";
 
 export default async function HistoryPage() {

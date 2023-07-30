@@ -1,6 +1,15 @@
 import { defineConfig, defineGlobalStyles } from "@pandacss/dev";
 
 const globalCss = defineGlobalStyles({
+  "html, body": {
+    maxW: "100vw",
+    overflowX: "hidden",
+    p: 0,
+    m: 0,
+  },
+  body: {
+    minH: "100vh",
+  },
   a: {
     color: "blue.500",
     transition: "all 0.2s ease-in-out",
@@ -39,6 +48,12 @@ const globalCss = defineGlobalStyles({
     borderWidth: "1px",
     _osDark: {
       borderColor: "gray.800",
+    },
+  },
+  "@media (prefers-color-scheme: dark)": {
+    html: {
+      colorScheme: "dark",
+      backgroundColor: "#121212",
     },
   },
 });

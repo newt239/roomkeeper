@@ -1,10 +1,10 @@
-import { deleteAllGuests } from "@/app/actions";
 import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
 import EachGuest from "@/components/feature/GuestRow";
 import LoadCSV from "@/components/feature/LoadCSV";
 import { db } from "@/db/connect";
 import { guestsTable } from "@/db/schema";
+import { deleteAllGuests } from "@/utils/actions";
 
 export default async function GuestSettingsPage() {
   const guests = await db
