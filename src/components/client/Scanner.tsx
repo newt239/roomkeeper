@@ -16,22 +16,19 @@ type DeviceProps = {
 export default function Scanner() {
   const router = useRouter();
   const [cameraState, setCameraState] = useState<boolean>(false);
-  const getDeviceIdFromStorage = () => {
-    const savedCurrentCameraDeviceId = localStorage.getItem(
-      "currentCameraDeviceId"
-    );
-    if (savedCurrentCameraDeviceId) {
-      return savedCurrentCameraDeviceId;
-    }
-    return "";
-  };
-  const [currentDeviceId, setCurrentDeviceId] = useState<string>(
-    getDeviceIdFromStorage()
-  );
+  const [currentDeviceId, setCurrentDeviceId] = useState<string>();
   const [deviceList, setDeviceList] = useState<DeviceProps[]>([]);
   const [reverseCamera, setReverseCamera] = useState<boolean>(
     localStorage.getItem("reverseCamera") === "false" ? false : true
   );
+
+  useEffect(() => {
+    const savedCurrentCameraDeviceId =
+      (typeof window !== "undefined" &&
+        localStorage.getItem("currentCameraDeviceId")) ||
+      "";
+    setCurrentDeviceId(savedCurrentCameraDeviceId);
+  });
 
   const getCameraDeviceList = () => {
     navigator.mediaDevices

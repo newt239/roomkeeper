@@ -16,7 +16,9 @@ type Params = {
 };
 
 export default function Register(params: Params) {
-  const defaultEvent = localStorage.getItem("defaultEvent") || "default";
+  const defaultEvent =
+    (typeof window !== "undefined" && localStorage.getItem("defaultEvent")) ||
+    "default";
 
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     localStorage.setItem("defaultEvent", e.target.value);
