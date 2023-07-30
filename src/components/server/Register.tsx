@@ -68,7 +68,7 @@ export default async function Register(params: Params) {
           </select>
         </div>
         <Button type="submit">
-          {params.activity_type === "exit" ? "入室" : "退室"}
+          {params.activity_type === "enter" ? "入室" : "退室"}
         </Button>
       </form>
     </div>

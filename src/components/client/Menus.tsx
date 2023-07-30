@@ -10,6 +10,7 @@ export default function Menus() {
 
   const links = [
     { href: "/", label: "スキャン" },
+    { href: "/room", label: "滞在状況" },
     { href: "/history", label: "履歴" },
     { href: "/settings", label: "設定" },
   ];

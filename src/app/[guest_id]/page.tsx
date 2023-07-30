@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { desc, eq } from "drizzle-orm";
 
+import Button from "@/components/common/Button";
 import Register from "@/components/server/Register";
 import { db } from "@/db/connect";
 import { activitiesTable, eventsTable, guestsTable } from "@/db/schema";
@@ -44,7 +45,11 @@ export default async function StudentIDPage({ params }: { params: Params }) {
       {guests.length === 1 ? (
         <Register
           activity_type={activity_type}
-          enter_at={activities.length === 0 ? null : activities[0].timestamp}
+          enter_at={
+            activities.length > 0 && activities[0].type === "enter"
+              ? activities[0].timestamp
+              : null
+          }
           events={events}
           guest_id={guests[0].id}
         />
@@ -62,35 +67,8 @@ export default async function StudentIDPage({ params }: { params: Params }) {
               justifyContent: "flex-end",
             })}
           >
-            <Link
-              className={css({
-                display: "block",
-                textAlign: "center",
-                mt: 8,
-                p: 2,
-                borderRadius: 4,
-                w: 150,
-                cursor: "pointer",
-                bgColor: "blue.500",
-                transition: "all 0.2s ease-in-out",
-                _hover: {
-                  bgColor: "blue.600",
-                },
-                _focus: {
-                  borderColor: "blue.500",
-                  boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
-                },
-                _disabled: {
-                  bgColor: "gray.300",
-                  cursor: "not-allowed",
-                  _hover: {
-                    bgColor: "gray.300",
-                  },
-                },
-              })}
-              href="/"
-            >
-              スキャンし直す
+            <Link href="/">
+              <Button>スキャンし直す</Button>
             </Link>
           </div>
         </div>
