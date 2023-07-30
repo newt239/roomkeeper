@@ -18,8 +18,6 @@ export default async function ScanPage({ params }: Props) {
     .from(guestsTable)
     .where(eq(guestsTable.id, means[0]));
 
-  console.log(means[0]);
-
   return (
     <div
       className={css({

@@ -4,7 +4,6 @@ import { db } from "./connect";
 
 migrate(db, { migrationsFolder: "./drizzle" })
   .then(() => {
-    console.log("Migrations complete!");
     process.exit(0);
   })
   .catch((err) => {

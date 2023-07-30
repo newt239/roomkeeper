@@ -80,7 +80,7 @@ export async function createEvent(formData: FormData) {
   if (typeof name !== "string") {
     return "イベント名が不適切です。";
   }
-  const result = await db.insert(eventsTable).values({
+  await db.insert(eventsTable).values({
     id: eventId,
     name,
     available: true,
