@@ -2,10 +2,10 @@ import { desc } from "drizzle-orm";
 
 import { deleteAllActivities } from "../actions";
 
-import ActivityRow from "@/components/client/ActivityRow";
-import ExportActivities from "@/components/client/ExportActivities";
 import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
+import ActivityRow from "@/components/feature/ActivityRow";
+import ExportActivities from "@/components/feature/ExportActivities";
 import { db } from "@/db/connect";
 import { activitiesTable } from "@/db/schema";
 import { css } from "@panda/css";

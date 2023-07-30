@@ -1,7 +1,7 @@
 import { eq, sql } from "drizzle-orm";
 
-import EventGuestRow from "@/components/client/EventGuestRow";
 import Title from "@/components/common/Title";
+import EventGuestRow from "@/components/feature/EventGuestRow";
 import { db } from "@/db/connect";
 import { eventsTable } from "@/db/schema";
 import { css } from "@panda/css";

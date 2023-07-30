@@ -3,7 +3,7 @@ import Link from "next/link";
 import { desc, eq } from "drizzle-orm";
 
 import Button from "@/components/common/Button";
-import Register from "@/components/server/Register";
+import Register from "@/components/feature/Register";
 import { db } from "@/db/connect";
 import { activitiesTable, eventsTable, guestsTable } from "@/db/schema";
 import { css } from "@panda/css";

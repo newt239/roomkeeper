@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 
-import DirectInput from "@/components/client/DirectInput";
+import DirectInput from "@/components/feature/DirectInput";
 import { db } from "@/db/connect";
 import { guestsTable } from "@/db/schema";
 import { css } from "@panda/css";

@@ -1,4 +1,4 @@
-import DirectInput from "@/components/client/DirectInput";
+import DirectInput from "@/components/feature/DirectInput";
 import { css } from "@panda/css";
 
 export default function ScanPage() {

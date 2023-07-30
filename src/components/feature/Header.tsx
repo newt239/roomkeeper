@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import Menus from "@/components/client/Menus";
+import Menus from "@/components/feature/Menus";
 import { css } from "@panda/css";
 
 export default async function Header() {
