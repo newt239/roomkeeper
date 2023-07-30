@@ -1,7 +1,7 @@
 import Title from "@/components/common/Title";
 
-const APP_VERSION = "0.2.1";
-const LAST_UPDATE = "2023/07/30 15:30";
+const APP_VERSION = "0.3.0";
+const LAST_UPDATE = "2023/07/30 16:00";
 
 export default async function HomePage() {
   return (
