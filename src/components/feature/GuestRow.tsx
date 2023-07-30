@@ -11,7 +11,7 @@ type Props = {
 };
 
 export default function EachGuest({ guest_id, guest_name }: Props) {
-  const [_isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   return (
     <tr>
@@ -19,6 +19,7 @@ export default function EachGuest({ guest_id, guest_name }: Props) {
       <td>{guest_name}</td>
       <td>
         <Button
+          disabled={isPending}
           onClick={() =>
             startTransition(async () => {
               await deleteGuest(guest_id);

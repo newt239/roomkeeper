@@ -18,7 +18,7 @@ type Props = {
 };
 
 export default function ActivityRow({ activity, latestIdList }: Props) {
-  const [_isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   return (
     <tr>
@@ -26,8 +26,9 @@ export default function ActivityRow({ activity, latestIdList }: Props) {
       <td>{activity.type === "enter" ? "入室" : "退室"}</td>
       <td>{dayjs(activity.timestamp).format("MM/DD HH:mm:ss")}</td>
       <td>
-        {latestIdList.includes(activity.id) && activity.type === "enter" && (
+        {latestIdList.includes(activity.id) && (
           <Button
+            disabled={isPending}
             onClick={() =>
               startTransition(async () => {
                 await deleteActivity(activity.id);

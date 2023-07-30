@@ -18,7 +18,7 @@ type Props = {
 };
 
 export default function Register(params: Props) {
-  const [_isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
   const [eventId, setEventId] = useState(params.default_event_id);
 
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -64,6 +64,7 @@ export default function Register(params: Props) {
           })}
         >
           <Button
+            disabled={isPending}
             onClick={() =>
               startTransition(async () => {
                 await addActivity({
