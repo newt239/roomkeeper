@@ -19,7 +19,7 @@ export default function DirectInput() {
         action={async (formData) => {
           setError(null);
           const result = await checkUserId(formData);
-          if (result.status === "error") {
+          if (result === "error") {
             setError("ユーザーIDが入力されていません。");
           }
         }}

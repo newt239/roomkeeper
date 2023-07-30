@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { IconCameraRotate } from "@tabler/icons-react";
 import { QrReader } from "react-qr-reader";
 
+import Input from "../common/Input";
+
 import { css } from "@panda/css";
 
 type DeviceProps = {
@@ -97,8 +99,8 @@ export default function Scanner() {
         alignItems: "center",
       })}
     >
-      <label htmlFor="wake">
-        <input
+      <label className={css({ cursor: "pointer" })} htmlFor="wake">
+        <Input
           checked={cameraState}
           id="wake"
           onChange={() => setCameraState((v) => !v)}
@@ -106,8 +108,8 @@ export default function Scanner() {
         />
         カメラを{cameraState ? "停止" : "起動"}する
       </label>
-      <label htmlFor="switch">
-        <input
+      <label className={css({ cursor: "pointer" })} htmlFor="switch">
+        <Input
           checked={reverseCamera}
           id="switch"
           onChange={() => setReverseCamera((v) => !v)}
@@ -118,7 +120,8 @@ export default function Scanner() {
       <div
         className={css({
           w: "min(50vw, 60vh)",
-          h: "min(50vw, 60vh)",
+          maxW: "100%",
+          aspectRatio: "1/1",
           position: "relative",
         })}
       >

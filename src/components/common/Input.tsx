@@ -19,6 +19,17 @@ export default function Input({ type, ...rest }: Props) {
               boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
             },
           })}
+          type="text"
+        />
+      );
+    case "checkbox":
+      return (
+        <input
+          {...rest}
+          className={css({
+            cursor: "pointer",
+          })}
+          type="checkbox"
         />
       );
     default:

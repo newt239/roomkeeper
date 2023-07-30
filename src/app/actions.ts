@@ -14,7 +14,7 @@ export async function checkUserId(formData: FormData) {
   if (typeof userId === "string") {
     redirect(`/${userId}`);
   } else {
-    return { status: "error" };
+    return "error";
   }
 }
 

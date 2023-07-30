@@ -13,7 +13,7 @@ export default async function Header() {
         borderColor: "gray.200",
         m: 4,
         px: 4,
-        h: 16,
+        py: 2,
         borderRadius: 8,
         shadow: "xl",
         display: "flex",
@@ -22,6 +22,8 @@ export default async function Header() {
         justifyContent: "space-between",
         sm: {
           flexDirection: "row",
+          py: 0,
+          h: 16,
         },
         _osDark: { bgColor: "gray.700", borderColor: "gray.600" },
       })}
