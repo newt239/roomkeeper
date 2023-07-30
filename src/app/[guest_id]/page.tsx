@@ -67,7 +67,7 @@ export default async function StudentIDPage({ params }: { params: Params }) {
               justifyContent: "flex-end",
             })}
           >
-            <Link href="/">
+            <Link href="/scan">
               <Button>スキャンし直す</Button>
             </Link>
           </div>

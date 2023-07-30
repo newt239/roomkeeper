@@ -9,12 +9,11 @@ import { nanoid } from "nanoid";
 import { db } from "@/db/connect";
 import { activitiesTable, eventsTable, guestsTable } from "@/db/schema";
 
-export async function checkUserId(formData: FormData) {
-  const userId = formData.get("user_id");
-  if (typeof userId === "string") {
-    redirect(`/${userId}`);
+export async function checkGuestId(user_id: string) {
+  if (user_id === "") {
+    return "ユーザーIDが空です。";
   } else {
-    return "error";
+    redirect(`/${user_id}`);
   }
 }
 

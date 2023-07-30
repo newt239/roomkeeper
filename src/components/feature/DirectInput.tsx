@@ -5,24 +5,17 @@ import { useState } from "react";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Title from "@/components/common/Title";
-import { checkUserId } from "@/utils/actions";
+import { checkGuestId } from "@/utils/actions";
 import { css } from "@panda/css";
 
 export default function DirectInput() {
-  const [error, setError] = useState<string | null>(null);
   const [inputId, setInputId] = useState<string>("");
 
   return (
     <div>
       <Title level="h2">直接入力</Title>
       <form
-        action={async (formData) => {
-          setError(null);
-          const result = await checkUserId(formData);
-          if (result === "error") {
-            setError("ユーザーIDが入力されていません。");
-          }
-        }}
+        action={async () => await checkGuestId(inputId)}
         className={css({
           my: 2,
           display: "flex",
@@ -40,7 +33,6 @@ export default function DirectInput() {
         <Button disabled={inputId.length === 0} type="submit">
           検索
         </Button>
-        {error && <p>{error}</p>}
       </form>
     </div>
   );
