@@ -74,6 +74,21 @@ export async function addActivity({
   }
 }
 
+export async function executeExitAction(guest_id: string, event_id: string) {
+  await db
+    .insert(activitiesTable)
+    .values({
+      id: nanoid(),
+      guest_id,
+      event_id,
+      type: "exit",
+      timestamp: new Date(),
+      available: true,
+    })
+    .returning();
+  revalidatePath(`/events/${event_id}`);
+}
+
 export async function createEvent(formData: FormData) {
   const name = formData.get("event_name");
   const eventId = nanoid();

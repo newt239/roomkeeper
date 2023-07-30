@@ -1,6 +1,6 @@
-import dayjs from "dayjs";
 import { eq, sql } from "drizzle-orm";
 
+import EventGuestRow from "@/components/client/EventGuestRow";
 import Title from "@/components/common/Title";
 import { db } from "@/db/connect";
 import { eventsTable } from "@/db/schema";
@@ -65,12 +65,11 @@ export default async function EventIdPage({ params }: { params: Params }) {
           </thead>
           <tbody>
             {guests.map((guest) => (
-              <tr key={guest.guest_id}>
-                <td>{guest.guest_id}</td>
-                <td>{guest.name}</td>
-                <td>{dayjs(guest.enter_at).format("MM/DD HH:mm:ss")}</td>
-                <td></td>
-              </tr>
+              <EventGuestRow
+                event_id={params.event_id}
+                guest={guest}
+                key={guest.guest_id}
+              />
             ))}
           </tbody>
         </table>
