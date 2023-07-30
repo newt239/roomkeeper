@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "drizzle-kit generate:pg --schema src/db/schema.ts",
+    "migrate": "drizzle-kit generate:pg --config drizzle.config.ts",
     "prepare": "panda codegen"
   },
   "dependencies": {

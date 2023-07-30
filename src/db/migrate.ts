@@ -1,8 +1,10 @@
 import { migrate } from "drizzle-orm/vercel-postgres/migrator";
 
+import drizzleConfig from "../../drizzle.config";
+
 import { db } from "./connect";
 
-migrate(db, { migrationsFolder: "./drizzle" })
+migrate(db, { migrationsFolder: drizzleConfig.out })
   .then(() => {
     process.exit(0);
   })
