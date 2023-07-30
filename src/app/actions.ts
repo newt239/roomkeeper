@@ -70,7 +70,7 @@ export async function addActivity({
     })
     .returning();
   if (activities.length === 1) {
-    redirect("/");
+    redirect(`/scan/${guest_id},${type},success`);
   }
 }
 

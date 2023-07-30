@@ -9,7 +9,7 @@ export default function Menus() {
   const pathname = usePathname();
 
   const links = [
-    { href: "/", label: "スキャン" },
+    { href: "/scan", label: "スキャン" },
     { href: "/events", label: "滞在状況" },
     { href: "/history", label: "履歴" },
     { href: "/settings", label: "設定" },
@@ -19,11 +19,7 @@ export default function Menus() {
     <>
       {links.map(({ href, label }) => (
         <Link
-          aria-current={
-            (pathname.startsWith(href) && href !== "/") || href === pathname
-              ? "page"
-              : undefined
-          }
+          aria-current={pathname.startsWith(href) ? "page" : undefined}
           className={css({
             color: "inherit",
             textDecoration: "none",

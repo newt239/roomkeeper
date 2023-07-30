@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import Menus from "@/components/client/Menus";
 import { css } from "@panda/css";
 
@@ -24,7 +26,17 @@ export default async function Header() {
         _osDark: { bgColor: "gray.700", borderColor: "gray.600" },
       })}
     >
-      <h1 className={css({ fontSize: "4xl", fontWeight: 700 })}>Roomkeeper</h1>
+      <Link
+        className={css({
+          color: "white",
+          textDecoration: "none",
+        })}
+        href="/"
+      >
+        <h1 className={css({ fontSize: "4xl", fontWeight: 700 })}>
+          Roomkeeper
+        </h1>
+      </Link>
       <div
         className={css({
           display: "flex",
