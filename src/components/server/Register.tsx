@@ -1,13 +1,11 @@
-import { redirect } from "next/navigation";
+"use client";
 
 import dayjs from "dayjs";
-import { nanoid } from "nanoid";
 
 import Button from "../common/Button";
 import Title from "../common/Title";
 
-import { db } from "@/db/connect";
-import { activitiesTable } from "@/db/schema";
+import { addActivity } from "@/app/actions";
 import { css } from "@panda/css";
 
 type Params = {
@@ -17,26 +15,12 @@ type Params = {
   events: { id: string; name: string }[];
 };
 
-export default async function Register(params: Params) {
-  async function addActivity(formData: FormData) {
-    "use server";
+export default function Register(params: Params) {
+  const defaultEvent = localStorage.getItem("defaultEvent") || "default";
 
-    const event_id = formData.get("event_name") as string;
-    const activities = await db
-      .insert(activitiesTable)
-      .values({
-        id: nanoid(),
-        guest_id: params.guest_id,
-        event_id,
-        type: params.activity_type,
-        timestamp: new Date(),
-        available: true,
-      })
-      .returning();
-    if (activities.length === 1) {
-      redirect("/");
-    }
-  }
+  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    localStorage.setItem("defaultEvent", e.target.value);
+  };
 
   return (
     <div>
@@ -51,7 +35,14 @@ export default async function Register(params: Params) {
         )}
       </div>
       <form
-        action={addActivity}
+        action={async (formData: FormData) => {
+          const event_id = formData.get("event_name") as string;
+          await addActivity({
+            event_id,
+            guest_id: params.guest_id,
+            type: params.activity_type,
+          });
+        }}
         className={css({
           w: "100%",
           mt: 4,
@@ -59,7 +50,18 @@ export default async function Register(params: Params) {
       >
         <Title level="h3">イベント</Title>
         <div>
-          <select name="event_name">
+          <select
+            defaultValue={
+              params.events.map((event) => event.id).includes(defaultEvent)
+                ? defaultEvent
+                : "default"
+            }
+            name="event_name"
+            onChange={onSelectChange}
+          >
+            <option key="default" value="default">
+              デフォルト
+            </option>
             {params.events.map((event) => (
               <option key={event.id} value={event.id}>
                 {event.name}
@@ -67,9 +69,19 @@ export default async function Register(params: Params) {
             ))}
           </select>
         </div>
-        <Button type="submit">
-          {params.activity_type === "enter" ? "入室" : "退室"}
-        </Button>
+        <div
+          className={css({
+            my: 5,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
+            gap: 2,
+          })}
+        >
+          <Button type="submit">
+            {params.activity_type === "enter" ? "入室" : "退室"}
+          </Button>
+        </div>
       </form>
     </div>
   );

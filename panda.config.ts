@@ -30,6 +30,17 @@ const globalCss = defineGlobalStyles({
       backgroundColor: "gray.800",
     },
   },
+  select: {
+    py: 2,
+    px: 4,
+    borderRadius: "md",
+    borderStyle: "solid",
+    borderColor: "gray.100",
+    borderWidth: "1px",
+    _osDark: {
+      borderColor: "gray.800",
+    },
+  },
 });
 
 export default defineConfig({

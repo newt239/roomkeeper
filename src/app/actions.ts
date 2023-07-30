@@ -36,6 +36,31 @@ export async function importGuests(guests: string[][]) {
   }
 }
 
+export async function addActivity({
+  event_id,
+  guest_id,
+  type,
+}: {
+  event_id: string;
+  guest_id: string;
+  type: "enter" | "exit";
+}) {
+  const activities = await db
+    .insert(activitiesTable)
+    .values({
+      id: nanoid(),
+      guest_id,
+      event_id,
+      type,
+      timestamp: new Date(),
+      available: true,
+    })
+    .returning();
+  if (activities.length === 1) {
+    redirect("/");
+  }
+}
+
 export async function createEvent(formData: FormData) {
   const name = formData.get("event_name");
   const eventId = nanoid();
