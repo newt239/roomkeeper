@@ -9,10 +9,9 @@ type Props = {
   activities: {
     id: string;
     guest_id: string;
-    event_id: string;
+    event_name: string;
     type: string;
     timestamp: Date;
-    available: boolean;
   }[];
 };
 
@@ -29,10 +28,9 @@ export default function ExportActivities({ activities }: Props) {
     worksheet.columns = [
       { header: "ID", key: "id" },
       { header: "ゲストID", key: "guest_id" },
-      { header: "イベントID", key: "event_id" },
+      { header: "イベント名", key: "event_id" },
       { header: "種別", key: "type" },
       { header: "タイムスタンプ", key: "timestamp" },
-      { header: "有効", key: "available" },
     ];
 
     worksheet.addRows(activities);
