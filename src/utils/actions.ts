@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
@@ -63,7 +62,7 @@ export async function addActivity({
     timestamp: new Date(),
     available: true,
   });
-  redirect(`/scan/${guest_id},${type},success`);
+  return { event_id, guest_id, type };
 }
 
 export async function executeExitAction(guest_id: string, event_id: string) {

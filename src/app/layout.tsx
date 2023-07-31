@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import { BIZ_UDPGothic } from "next/font/google";
 import { cookies } from "next/headers";
 
+import { Slide, ToastContainer } from "react-toastify";
+
 import Header from "@/components/feature/Header";
 import Scanner from "@/components/feature/Scanner";
 import { css } from "@panda/css";
 
 import "@/utils/globals.css";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: "Roomkeeper",
@@ -74,6 +77,7 @@ export default async function RootLayout({
                 },
               })}
             >
+              <ToastContainer transition={Slide} />
               {children}
             </div>
           </div>

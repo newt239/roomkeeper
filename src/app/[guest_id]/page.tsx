@@ -13,6 +13,8 @@ type Params = {
   guest_id: string;
 };
 
+export const revalidate = 0;
+
 export default async function StudentIDPage({ params }: { params: Params }) {
   const cookieStore = cookies();
   const default_event_id = cookieStore.get("default_event_id");
@@ -49,7 +51,7 @@ export default async function StudentIDPage({ params }: { params: Params }) {
       {guests.length === 1 ? (
         <Register
           activity_type={activity_type}
-          default_event_id={default_event_id?.value || "default"}
+          default_event_id={default_event_id?.value || ""}
           enter_at={
             activities.length > 0 && activities[0].type === "enter"
               ? activities[0].timestamp

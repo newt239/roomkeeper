@@ -1,8 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
+import { IconLoader2 } from "@tabler/icons-react";
 import dayjs from "dayjs";
+import { toast } from "react-toastify";
 
 import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
@@ -18,6 +21,7 @@ type Props = {
 };
 
 export default function Register(params: Props) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [eventId, setEventId] = useState(params.default_event_id);
 
@@ -28,56 +32,85 @@ export default function Register(params: Props) {
 
   return (
     <div>
+      <Title level="h3">ゲストID</Title>
+      <p>{params.guest_id}</p>
+      {params.enter_at && (
+        <>
+          <Title level="h3">入室時刻</Title>
+          <p>{dayjs(params.enter_at).format("MM月DD日 HH:mm:ss")}</p>
+        </>
+      )}
+      <Title level="h3">イベント</Title>
       <div>
-        <Title level="h3">ゲストID</Title>
-        <p>{params.guest_id}</p>
-        {params.enter_at && (
-          <>
-            <Title level="h3">入室時刻</Title>
-            <p>{dayjs(params.enter_at).format("MM月DD日 HH:mm:ss")}</p>
-          </>
-        )}
+        <select
+          name="event_name"
+          onChange={onSelectChange}
+          required
+          value={eventId}
+        >
+          <option disabled value="">
+            イベントを選択してください
+          </option>
+          {params.events.map((event) => (
+            <option key={event.id} value={event.id}>
+              {event.name}
+            </option>
+          ))}
+        </select>
       </div>
       <div
         className={css({
-          w: "100%",
-          mt: 4,
+          my: 5,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          gap: 5,
         })}
       >
-        <Title level="h3">イベント</Title>
-        <div>
-          <select name="event_name" onChange={onSelectChange} value={eventId}>
-            {params.events.map((event) => (
-              <option key={event.id} value={event.id}>
-                {event.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div
-          className={css({
-            my: 5,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-end",
-            gap: 2,
-          })}
-        >
-          <Button
-            disabled={isPending}
-            onClick={() =>
-              startTransition(async () => {
-                await addActivity({
-                  event_id: eventId,
-                  guest_id: params.guest_id,
-                  type: params.activity_type,
-                });
-              })
-            }
+        {isPending && (
+          <div
+            className={css({
+              display: "flex",
+              flexDirection: "row",
+              gap: 2,
+            })}
           >
-            {params.activity_type === "enter" ? "入室" : "退室"}
-          </Button>
-        </div>
+            <IconLoader2
+              className={css({
+                animation: "spin 1s linear infinite",
+              })}
+            />
+            <span>処理中...</span>
+          </div>
+        )}
+        <Button
+          disabled={isPending || eventId === ""}
+          onClick={() =>
+            startTransition(async () => {
+              const result = await addActivity({
+                event_id: eventId,
+                guest_id: params.guest_id,
+                type: params.activity_type,
+              });
+              router.push(`/scan`);
+              toast.success(
+                `${result.guest_id}の${
+                  result.type === "enter" ? "入室" : "退室"
+                }処理に成功しました。`,
+                {
+                  position: toast.POSITION.TOP_CENTER,
+                  theme: "dark",
+                  closeButton: true,
+                  hideProgressBar: true,
+                  autoClose: 2000,
+                }
+              );
+            })
+          }
+        >
+          {params.activity_type === "enter" ? "入室" : "退室"}
+        </Button>
       </div>
     </div>
   );
