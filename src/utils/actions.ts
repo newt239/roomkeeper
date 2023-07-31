@@ -109,3 +109,7 @@ export async function deleteAllActivities() {
 export async function saveToCookie(key: string, value: string) {
   cookies().set(key, value);
 }
+
+export async function revalidateSpecificPath(path: string) {
+  revalidatePath(path);
+}

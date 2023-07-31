@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
 
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 
 import Button from "@/components/common/Button";
 import Register from "@/components/feature/Register";
@@ -17,25 +17,34 @@ export const revalidate = 0;
 
 export default async function StudentIDPage({ params }: { params: Params }) {
   const cookieStore = cookies();
-  const default_event_id = cookieStore.get("default_event_id");
+  const default_event_id = cookieStore.get("default_event_id")?.value || "";
 
   const guests = await db
     .select()
     .from(guestsTable)
-    .where(eq(guestsTable.id, params.guest_id));
+    .where(eq(guestsTable.id, params.guest_id))
+    .limit(1);
 
-  const activities = await db
-    .select()
-    .from(activitiesTable)
-    .where(eq(activitiesTable.guest_id, params.guest_id))
-    .orderBy(desc(activitiesTable.timestamp));
+  let activity_type: "enter" | "exit" = "enter";
+  let enter_at: Date | null = null;
 
-  const activity_type: "enter" | "exit" =
-    activities.length === 0
-      ? "enter"
-      : activities[0].type === "enter"
-      ? "exit"
-      : "enter";
+  if (default_event_id !== "") {
+    const activities = await db
+      .select()
+      .from(activitiesTable)
+      .where(
+        and(
+          eq(activitiesTable.guest_id, params.guest_id),
+          eq(activitiesTable.event_id, default_event_id)
+        )
+      )
+      .orderBy(desc(activitiesTable.timestamp))
+      .limit(1);
+    if (activities.length === 1) {
+      activity_type = activities[0].type as "enter" | "exit";
+      enter_at = activities[0].timestamp;
+    }
+  }
 
   const events = await db
     .select({
@@ -51,12 +60,8 @@ export default async function StudentIDPage({ params }: { params: Params }) {
       {guests.length === 1 ? (
         <Register
           activity_type={activity_type}
-          default_event_id={default_event_id?.value || ""}
-          enter_at={
-            activities.length > 0 && activities[0].type === "enter"
-              ? activities[0].timestamp
-              : null
-          }
+          default_event_id={default_event_id}
+          enter_at={enter_at}
           events={events}
           guest_id={guests[0].id}
         />

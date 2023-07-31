@@ -22,12 +22,6 @@ export default async function HomePage() {
           <a href="/settings">設定</a>
         </li>
       </ul>
-      <Title level="h3">非対応の機能</Title>
-      <ul>
-        <li>
-          同一のゲストが同時に複数のイベントで入室するケースを考慮していません。つまり、イベント「A」で入室したあとイベント「B」で入室しようとすると、「イベントBの退室」が記録されます。
-        </li>
-      </ul>
       <Title level="h3">アプリ情報</Title>
       <ul>
         <li>v{APP_VERSION}</li>

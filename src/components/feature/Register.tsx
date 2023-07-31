@@ -9,7 +9,11 @@ import { toast } from "react-toastify";
 
 import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
-import { addActivity, saveToCookie } from "@/utils/actions";
+import {
+  addActivity,
+  revalidateSpecificPath,
+  saveToCookie,
+} from "@/utils/actions";
 import { css } from "@panda/css";
 
 type Props = {
@@ -26,8 +30,11 @@ export default function Register(params: Props) {
   const [eventId, setEventId] = useState(params.default_event_id);
 
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setEventId(e.target.value);
-    (async () => await saveToCookie("default_event_id", e.target.value))();
+    startTransition(async () => {
+      setEventId(e.target.value);
+      await saveToCookie("default_event_id", e.target.value);
+      await revalidateSpecificPath(`/${params.guest_id}`);
+    });
   };
 
   return (
@@ -37,7 +44,7 @@ export default function Register(params: Props) {
       {params.enter_at && (
         <>
           <Title level="h3">入室時刻</Title>
-          <p>{dayjs(params.enter_at).format("MM月DD日 HH:mm:ss")}</p>
+          <p>{dayjs(params.enter_at).format("MM/DD HH:mm:ss")}</p>
         </>
       )}
       <Title level="h3">イベント</Title>
@@ -97,7 +104,7 @@ export default function Register(params: Props) {
               toast.success(
                 `${result.guest_id}の${
                   result.type === "enter" ? "入室" : "退室"
-                }処理に成功しました。`,
+                }処理に成功`,
                 {
                   position: toast.POSITION.TOP_CENTER,
                   theme: "dark",
