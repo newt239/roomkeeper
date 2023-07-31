@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 import { IconLoader2 } from "@tabler/icons-react";
 import dayjs from "dayjs";
@@ -36,6 +36,12 @@ export default function Register(params: Props) {
       await revalidateSpecificPath(`/${params.guest_id}`);
     });
   };
+
+  useEffect(() => {
+    startTransition(async () => {
+      await revalidateSpecificPath(`/${params.guest_id}`);
+    });
+  }, [params.guest_id]);
 
   return (
     <div>

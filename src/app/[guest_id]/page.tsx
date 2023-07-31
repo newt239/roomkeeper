@@ -43,8 +43,8 @@ export default async function StudentIDPage({ params }: { params: Params }) {
       )
       .orderBy(desc(activitiesTable.timestamp))
       .limit(1);
-    if (activities.length === 1) {
-      activity_type = activities[0].type as "enter" | "exit";
+    if (activities.length === 1 && activities[0].type === "enter") {
+      activity_type = "exit";
       enter_at = activities[0].timestamp;
     }
   }
