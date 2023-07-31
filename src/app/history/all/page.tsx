@@ -2,6 +2,8 @@ import { desc, eq } from "drizzle-orm";
 
 import Title from "@/components/common/Title";
 import ActivityRow from "@/components/feature/ActivityRow";
+import ExportActivities from "@/components/feature/ExportActivities";
+import ResetActivities from "@/components/feature/ResetActivities";
 import { db } from "@/db/connect";
 import { activitiesTable, eventsTable } from "@/db/schema";
 import { css } from "@panda/css";
@@ -29,6 +31,8 @@ export default async function AllHistoryPage() {
   return (
     <div>
       <Title level="h2">すべてのスキャン履歴</Title>
+      <ExportActivities activities={activities} />
+      <Title level="h3">一覧</Title>
       {activities.length === 0 ? (
         <p>履歴がありません。</p>
       ) : (
@@ -36,6 +40,7 @@ export default async function AllHistoryPage() {
           <thead>
             <tr>
               <th>ゲストID</th>
+              <th>イベント名</th>
               <th>種別</th>
               <th>タイムスタンプ</th>
               <th></th>
@@ -52,6 +57,7 @@ export default async function AllHistoryPage() {
           </tbody>
         </table>
       )}
+      <ResetActivities />
     </div>
   );
 }

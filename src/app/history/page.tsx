@@ -4,8 +4,6 @@ import { desc, eq } from "drizzle-orm";
 
 import Title from "@/components/common/Title";
 import ActivityRow from "@/components/feature/ActivityRow";
-import ExportActivities from "@/components/feature/ExportActivities";
-import ResetActivities from "@/components/feature/ResetActivities";
 import { db } from "@/db/connect";
 import { activitiesTable, eventsTable } from "@/db/schema";
 import { css } from "@panda/css";
@@ -68,8 +66,6 @@ export default async function HistoryPage() {
       <p className={css({ my: 4 })}>
         <Link href="/history/all">すべての履歴を見る</Link>
       </p>
-      <ExportActivities activities={activities} />
-      <ResetActivities />
     </div>
   );
 }
