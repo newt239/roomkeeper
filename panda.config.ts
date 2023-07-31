@@ -23,6 +23,9 @@ const globalCss = defineGlobalStyles({
     listStyle: "disc",
     paddingLeft: "1rem",
   },
+  li: {
+    lineHeight: "2rem",
+  },
   "th, td": {
     py: 2,
     px: 4,

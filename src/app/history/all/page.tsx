@@ -1,37 +1,22 @@
-import Link from "next/link";
-
 import { desc } from "drizzle-orm";
 
 import Title from "@/components/common/Title";
 import ActivityRow from "@/components/feature/ActivityRow";
-import ExportActivities from "@/components/feature/ExportActivities";
-import ResetActivities from "@/components/feature/ResetActivities";
 import { db } from "@/db/connect";
 import { activitiesTable } from "@/db/schema";
 import { css } from "@panda/css";
 
 export const revalidate = 0;
 
-export default async function HistoryPage() {
+export default async function AllHistoryPage() {
   const activities = await db
     .select()
     .from(activitiesTable)
-    .orderBy(desc(activitiesTable.timestamp))
-    .limit(20);
-
-  let latestIdList: string[] = [];
-  let guestList: string[] = [];
-  activities.map((activity) => {
-    if (!guestList.includes(activity.guest_id)) {
-      latestIdList.push(activity.id);
-      guestList.push(activity.guest_id);
-    }
-  });
+    .orderBy(desc(activitiesTable.timestamp));
 
   return (
     <div>
-      <Title level="h2">スキャン履歴</Title>
-      <Title level="h3">一覧</Title>
+      <Title level="h2">すべてのスキャン履歴</Title>
       {activities.length === 0 ? (
         <p>履歴がありません。</p>
       ) : (
@@ -49,15 +34,12 @@ export default async function HistoryPage() {
               <ActivityRow
                 activity={activity}
                 key={activity.id}
-                latestIdList={latestIdList}
+                latestIdList={[]}
               />
             ))}
           </tbody>
         </table>
       )}
-      <Link href="/history/all">すべての履歴を見る</Link>
-      <ExportActivities activities={activities} />
-      <ResetActivities />
     </div>
   );
 }

@@ -10,6 +10,8 @@ type Params = {
   event_id: string;
 };
 
+export const revalidate = 0;
+
 export default async function EventIdPage({ params }: { params: Params }) {
   const events = await db
     .select()
