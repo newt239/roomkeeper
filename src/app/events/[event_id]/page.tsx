@@ -1,4 +1,4 @@
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 
 import Title from "@/components/common/Title";
 import EventGuestRow from "@/components/feature/EventGuestRow";
@@ -16,7 +16,9 @@ export default async function EventIdPage({ params }: { params: Params }) {
   const events = await db
     .select()
     .from(eventsTable)
-    .where(eq(eventsTable.id, params.event_id));
+    .where(
+      and(eq(eventsTable.id, params.event_id), eq(eventsTable.available, true))
+    );
   const result = await db.execute(sql`
     SELECT guest_id, enter_at, name
     FROM (
@@ -25,7 +27,7 @@ export default async function EventIdPage({ params }: { params: Params }) {
       WHERE guest_id in (
         SELECT guest_id
         FROM activities
-        WHERE event_id = ${params.event_id}
+        WHERE event_id = ${params.event_id} AND available = true
         GROUP BY guest_id
         HAVING count(guest_id) % 2 = 1
       )

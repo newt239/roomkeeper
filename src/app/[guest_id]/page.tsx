@@ -22,7 +22,9 @@ export default async function StudentIDPage({ params }: { params: Params }) {
   const guests = await db
     .select()
     .from(guestsTable)
-    .where(eq(guestsTable.id, params.guest_id))
+    .where(
+      and(eq(guestsTable.id, params.guest_id), eq(guestsTable.available, true))
+    )
     .limit(1);
 
   let activity_type: "enter" | "exit" = "enter";
@@ -35,7 +37,8 @@ export default async function StudentIDPage({ params }: { params: Params }) {
       .where(
         and(
           eq(activitiesTable.guest_id, params.guest_id),
-          eq(activitiesTable.event_id, default_event_id)
+          eq(activitiesTable.event_id, default_event_id),
+          eq(activitiesTable.available, true)
         )
       )
       .orderBy(desc(activitiesTable.timestamp))
@@ -52,6 +55,7 @@ export default async function StudentIDPage({ params }: { params: Params }) {
       name: eventsTable.name,
     })
     .from(eventsTable)
+    .where(eq(eventsTable.available, true))
     .orderBy(desc(eventsTable.name))
     .limit(20);
 

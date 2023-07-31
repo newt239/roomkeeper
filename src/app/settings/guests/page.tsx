@@ -1,3 +1,5 @@
+import { eq } from "drizzle-orm";
+
 import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
 import EachGuest from "@/components/feature/GuestRow";
@@ -11,6 +13,7 @@ export default async function GuestSettingsPage() {
   const guests = await db
     .select()
     .from(guestsTable)
+    .where(eq(guestsTable.available, true))
     .orderBy(guestsTable.name)
     .limit(20);
 

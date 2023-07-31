@@ -17,6 +17,7 @@ export default async function HistoryPage() {
     .select()
     .from(activitiesTable)
     .leftJoin(eventsTable, eq(eventsTable.id, activitiesTable.event_id))
+    .where(eq(activitiesTable.available, true))
     .orderBy(desc(activitiesTable.timestamp))
     .limit(20);
 

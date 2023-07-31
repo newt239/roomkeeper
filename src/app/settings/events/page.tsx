@@ -1,3 +1,5 @@
+import { eq } from "drizzle-orm";
+
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Title from "@/components/common/Title";
@@ -7,7 +9,11 @@ import { createEvent } from "@/utils/actions";
 import { css } from "@panda/css";
 
 export default async function EventSettingsPage() {
-  const events = await db.select().from(eventsTable).orderBy(eventsTable.name);
+  const events = await db
+    .select()
+    .from(eventsTable)
+    .where(eq(eventsTable.available, true))
+    .orderBy(eventsTable.name);
 
   return (
     <div>

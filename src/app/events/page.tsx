@@ -1,11 +1,16 @@
 import Link from "next/link";
 
+import { eq } from "drizzle-orm";
+
 import Title from "@/components/common/Title";
 import { db } from "@/db/connect";
 import { eventsTable } from "@/db/schema";
 
 export default async function EventsPage() {
-  const events = await db.select().from(eventsTable);
+  const events = await db
+    .select()
+    .from(eventsTable)
+    .where(eq(eventsTable.available, true));
 
   return (
     <div>
