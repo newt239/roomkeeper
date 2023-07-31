@@ -65,7 +65,9 @@ export default async function HistoryPage() {
           </tbody>
         </table>
       )}
-      <Link href="/history/all">すべての履歴を見る</Link>
+      <p className={css({ my: 4 })}>
+        <Link href="/history/all">すべての履歴を見る</Link>
+      </p>
       <ExportActivities activities={activities} />
       <ResetActivities />
     </div>

@@ -1,9 +1,11 @@
 "use client";
 
+import encoding from "encoding-japanese";
 import ExcelJS from "exceljs";
 
 import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
+import { css } from "@panda/css";
 
 type Props = {
   activities: {
@@ -22,25 +24,30 @@ export default function ExportActivities({ activities }: Props) {
     e.preventDefault();
 
     const workbook = new ExcelJS.Workbook();
-    workbook.addWorksheet("sheet1");
-    const worksheet = workbook.getWorksheet("sheet1");
+    workbook.addWorksheet("roomkeeper_activities");
+    const worksheet = workbook.getWorksheet("roomkeeper_activities");
 
     worksheet.columns = [
       { header: "ID", key: "id" },
       { header: "ゲストID", key: "guest_id" },
-      { header: "イベント名", key: "event_id" },
+      { header: "イベント名", key: "event_name" },
       { header: "種別", key: "type" },
       { header: "タイムスタンプ", key: "timestamp" },
     ];
 
     worksheet.addRows(activities);
 
-    const uint8Array = await workbook.csv.writeBuffer();
+    const uint8Array = new Uint8Array(
+      encoding.convert((await workbook.csv.writeBuffer()) as Uint8Array, {
+        from: "UTF8",
+        to: "SJIS",
+      })
+    );
     const blob = new Blob([uint8Array], { type: "application/octet-binary" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "sampleData.csv";
+    a.download = "roomkeeper_activities.csv";
     a.click();
     a.remove();
   };
@@ -48,7 +55,18 @@ export default function ExportActivities({ activities }: Props) {
   return (
     <div>
       <Title level="h3">エクスポート</Title>
-      <Button onClick={handlerClickDownloadButton}>CSV形式</Button>
+      <Button
+        className={css({
+          my: 4,
+        })}
+        onClick={handlerClickDownloadButton}
+      >
+        ダウンロード
+      </Button>
+      <ul>
+        <li>拡張子: csv</li>
+        <li>文字コード: Shift-JIS</li>
+      </ul>
     </div>
   );
 }
