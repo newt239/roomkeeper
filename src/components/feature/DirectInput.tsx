@@ -24,6 +24,7 @@ export default function DirectInput() {
         })}
       >
         <Input
+          autoFocus
           name="user_id"
           onChange={(e) => setInputId(e.target.value)}
           type="text"
