@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import Button from "@/components/common/Button";
@@ -9,6 +10,7 @@ import Title from "@/components/common/Title";
 import { css } from "@panda/css";
 
 export default function DirectInput() {
+  const router = useRouter();
   const [inputId, setInputId] = useState<string>("");
 
   return (
@@ -27,6 +29,11 @@ export default function DirectInput() {
           autoFocus
           name="user_id"
           onChange={(e) => setInputId(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              router.push(`/${inputId}`);
+            }
+          }}
           type="text"
           value={inputId}
         />
