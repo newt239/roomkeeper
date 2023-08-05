@@ -30,8 +30,9 @@ export default async function Header() {
     >
       <Link
         className={css({
-          color: "white",
+          color: "black",
           textDecoration: "none",
+          _osDark: { color: "white" },
         })}
         href="/"
       >
