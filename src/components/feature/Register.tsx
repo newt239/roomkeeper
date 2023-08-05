@@ -19,6 +19,7 @@ import { css } from "@panda/css";
 type Props = {
   default_event_id: string;
   guest_id: string;
+  guest_name: string;
   activity_type: "enter" | "exit";
   enter_at: Date | null;
   events: { id: string; name: string }[];
@@ -47,6 +48,8 @@ export default function Register(params: Props) {
     <div>
       <Title level="h3">ゲストID</Title>
       <p>{params.guest_id}</p>
+      <Title level="h3">氏名</Title>
+      <p>{params.guest_name}</p>
       {params.enter_at && (
         <>
           <Title level="h3">入室時刻</Title>

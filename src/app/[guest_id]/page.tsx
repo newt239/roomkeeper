@@ -68,6 +68,7 @@ export default async function StudentIDPage({ params }: { params: Params }) {
           enter_at={enter_at}
           events={events}
           guest_id={guests[0].id}
+          guest_name={guests[0].name}
         />
       ) : (
         <div
