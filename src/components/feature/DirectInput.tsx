@@ -27,7 +27,7 @@ export default function DirectInput({ event_id }: Props) {
         guest_id: inputId,
       });
       if (result === null) {
-        toast.error("エラーが発生しました");
+        toast.error(`${inputId}というゲストは存在しません`);
         errorBeep();
       } else {
         toast.success(

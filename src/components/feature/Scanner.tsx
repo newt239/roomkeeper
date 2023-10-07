@@ -148,7 +148,9 @@ export default function Scanner({
                       guest_id: result.getText(),
                     });
                     if (res === null) {
-                      toast.error("エラーが発生しました");
+                      toast.error(
+                        `${result.getText()}というゲストは存在しません`
+                      );
                     } else {
                       toast.success(
                         `${res.guest_id}の${
