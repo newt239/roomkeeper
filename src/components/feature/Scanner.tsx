@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 import Input from "@/components/common/Input";
 import { addActivity, saveToCookie } from "@/utils/actions";
+import { successBeep } from "@/utils/tone";
 import { css } from "@panda/css";
 
 type DeviceProps = {
@@ -184,6 +185,7 @@ export default function Scanner({
                           autoClose: 2000,
                         }
                       );
+                      successBeep();
                     }
                   });
                 }

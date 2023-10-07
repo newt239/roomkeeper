@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import { addActivity } from "@/utils/actions";
+import { errorBeep, successBeep } from "@/utils/tone";
 import { css } from "@panda/css";
 
 type Props = {
@@ -51,6 +52,7 @@ export default function DirectInput({ event_id }: Props) {
             });
             if (result === null) {
               toast.error("エラーが発生しました");
+              errorBeep();
             } else {
               toast.success(
                 `${result.guest_id}の${
@@ -64,6 +66,7 @@ export default function DirectInput({ event_id }: Props) {
                   autoClose: 2000,
                 }
               );
+              successBeep();
               setInputId("");
             }
           })

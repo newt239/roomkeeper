@@ -84,6 +84,7 @@ export async function addActivity({
     timestamp: new Date(),
     available: true,
   });
+  revalidatePath(`/events/${event_id}`);
   return { event_id, guest_id, type };
 }
 
