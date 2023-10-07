@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { cookies } from "next/headers";
 
 import { Slide, ToastContainer } from "react-toastify";
@@ -8,11 +7,6 @@ import { css } from "@panda/css";
 
 type Params = {
   event_id: string;
-};
-
-export const metadata: Metadata = {
-  title: "Roomkeeper",
-  description: "簡易入退室管理システム",
 };
 
 export default async function RootLayout({

@@ -134,7 +134,7 @@ export default function Scanner({
               />
             </div>
           )}
-          {refreshQrReader && cameraState && currentDeviceId && (
+          {refreshQrReader && cameraState && currentDeviceId && !isPending && (
             <QrReader
               constraints={{
                 facingMode: "environment",
