@@ -31,6 +31,9 @@ export default async function Header() {
         className={css({
           color: "black",
           textDecoration: "none",
+          _hover: {
+            opacity: 0.7,
+          },
           _osDark: { color: "white" },
         })}
         href="/"

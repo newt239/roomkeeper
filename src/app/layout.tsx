@@ -4,8 +4,8 @@ import { BIZ_UDPGothic } from "next/font/google";
 import { Slide, ToastContainer } from "react-toastify";
 
 import Header from "@/components/feature/Header";
-
 import "@/utils/globals.css";
+import { css } from "@panda/css";
 import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
@@ -27,7 +27,13 @@ export default async function RootLayout({
     <html lang="ja">
       <body className={bizUDPGpthic.className}>
         <Header />
-        <main>
+        <main
+          className={css({
+            lg: {
+              px: 8,
+            },
+          })}
+        >
           <ToastContainer transition={Slide} />
           {children}
         </main>

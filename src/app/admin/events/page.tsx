@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Title from "@/components/common/Title";
+import EachEvent from "@/components/feature/EachEvent";
 import { db } from "@/db/connect";
 import { eventsTable } from "@/db/schema";
 import { createEvent } from "@/utils/actions";
@@ -33,11 +34,24 @@ export default async function EventSettingsPage() {
         <Button type="submit">作成する</Button>
       </form>
       <Title level="h3">一覧</Title>
-      <ul>
-        {events.map((event) => (
-          <li key={event.id}>{event.name}</li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>イベントID</th>
+            <th>イベント名</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {events.map((event) => (
+            <EachEvent
+              event_id={event.id}
+              event_name={event.name}
+              key={event.id}
+            />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

@@ -15,7 +15,6 @@ export default async function AdminLayout({
         gap: 4,
         lg: {
           flexDirection: "row",
-          px: 8,
         },
       })}
     >
@@ -32,6 +31,9 @@ export default async function AdminLayout({
           </li>
           <li>
             <Link href="/admin/events">イベント管理</Link>
+          </li>
+          <li>
+            <Link href="/admin/history">履歴</Link>
           </li>
         </ul>
       </div>
