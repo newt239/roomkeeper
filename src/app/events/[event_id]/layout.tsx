@@ -53,7 +53,7 @@ export default async function RootLayout({
           <Scanner
             defaultCameraDeviceId={cameraDeviceId?.value || null}
             defaultReverseCamera={
-              ((reverseCamera?.value || "") as string) === "true" ? false : true
+              reverseCamera?.value === "true" ? false : true
             }
             event_id={params.event_id}
           />

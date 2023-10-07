@@ -51,7 +51,7 @@ export default function Scanner({
       })
       .then((devices) => {
         setDeviceList(devices);
-        if (currentDeviceId === "" && devices.length !== 0) {
+        if (currentDeviceId === null && devices.length !== 0) {
           setCurrentDeviceId(devices[0].deviceId);
         }
       });
