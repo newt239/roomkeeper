@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 
+import { IconTrash } from "@tabler/icons-react";
 import dayjs from "dayjs";
 
 import Button from "@/components/common/Button";
@@ -38,7 +39,9 @@ export default function ActivityRow({ activity, latestIdList }: Props) {
                 await deleteActivity(activity.id);
               })
             }
+            variant="danger"
           >
+            <IconTrash />
             取り消す
           </Button>
         </td>

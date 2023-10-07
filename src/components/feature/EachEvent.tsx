@@ -2,6 +2,8 @@
 
 import { useTransition } from "react";
 
+import { IconTrash } from "@tabler/icons-react";
+
 import Button from "@/components/common/Button";
 import { deleteEvent } from "@/utils/actions";
 
@@ -25,7 +27,9 @@ export default function EachEvent({ event_id, event_name }: Props) {
               await deleteEvent(event_id);
             })
           }
+          variant="danger"
         >
+          <IconTrash />
           削除
         </Button>
       </td>

@@ -2,6 +2,8 @@
 
 import { useTransition } from "react";
 
+import { IconTrash } from "@tabler/icons-react";
+
 import Button from "@/components/common/Button";
 import { deleteGuest } from "@/utils/actions";
 
@@ -25,7 +27,9 @@ export default function EachGuest({ guest_id, guest_name }: Props) {
               await deleteGuest(guest_id);
             })
           }
+          variant="danger"
         >
+          <IconTrash />
           削除
         </Button>
       </td>

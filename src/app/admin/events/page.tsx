@@ -1,3 +1,4 @@
+import { IconSquareRoundedPlus } from "@tabler/icons-react";
 import { eq } from "drizzle-orm";
 
 import Button from "@/components/common/Button";
@@ -31,9 +32,19 @@ export default async function EventSettingsPage() {
         })}
       >
         <Input name="event_name" placeholder="出欠管理" type="text" />
-        <Button type="submit">作成する</Button>
+        <Button type="submit">
+          <IconSquareRoundedPlus />
+          作成する
+        </Button>
       </form>
       <Title level="h3">一覧</Title>
+      <p
+        className={css({
+          mb: 3,
+        })}
+      >
+        イベントを削除すると、関連する入退室記録が全て削除されます。この操作は取り消せません。
+      </p>
       <table>
         <thead>
           <tr>

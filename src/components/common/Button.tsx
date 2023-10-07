@@ -2,6 +2,10 @@ import { cva, cx } from "@panda/css";
 
 const buttonStyle = cva({
   base: {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 2,
     color: "white",
     py: 2,
     px: 4,

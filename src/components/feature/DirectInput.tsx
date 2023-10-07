@@ -1,8 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
+import { IconWriting } from "@tabler/icons-react";
 import { toast } from "react-toastify";
 
 import Button from "@/components/common/Button";
@@ -16,7 +16,6 @@ type Props = {
 };
 
 export default function DirectInput({ event_id }: Props) {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [inputId, setInputId] = useState<string>("");
 
@@ -39,7 +38,7 @@ export default function DirectInput({ event_id }: Props) {
             theme: "dark",
             closeButton: true,
             hideProgressBar: true,
-            autoClose: 2000,
+            autoClose: 1000,
           }
         );
         successBeep();
@@ -74,6 +73,7 @@ export default function DirectInput({ event_id }: Props) {
         disabled={inputId.length === 0 || isPending}
         onClick={handleClick}
       >
+        <IconWriting />
         記録する
       </Button>
     </div>
