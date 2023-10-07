@@ -20,6 +20,34 @@ export default function DirectInput({ event_id }: Props) {
   const [isPending, startTransition] = useTransition();
   const [inputId, setInputId] = useState<string>("");
 
+  const handleClick = () => {
+    startTransition(async () => {
+      const result = await addActivity({
+        event_id,
+        guest_id: inputId,
+      });
+      if (result === null) {
+        toast.error("エラーが発生しました");
+        errorBeep();
+      } else {
+        toast.success(
+          `${result.guest_id}の${
+            result.type === "enter" ? "入室" : "退室"
+          }処理に成功しました`,
+          {
+            position: toast.POSITION.TOP_CENTER,
+            theme: "dark",
+            closeButton: true,
+            hideProgressBar: true,
+            autoClose: 2000,
+          }
+        );
+        successBeep();
+        setInputId("");
+      }
+    });
+  };
+
   return (
     <div
       className={css({
@@ -36,7 +64,7 @@ export default function DirectInput({ event_id }: Props) {
         onChange={(e) => setInputId(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            router.push(`/${inputId}`);
+            handleClick();
           }
         }}
         type="text"
@@ -44,33 +72,7 @@ export default function DirectInput({ event_id }: Props) {
       />
       <Button
         disabled={inputId.length === 0 || isPending}
-        onClick={() =>
-          startTransition(async () => {
-            const result = await addActivity({
-              event_id,
-              guest_id: inputId,
-            });
-            if (result === null) {
-              toast.error("エラーが発生しました");
-              errorBeep();
-            } else {
-              toast.success(
-                `${result.guest_id}の${
-                  result.type === "enter" ? "入室" : "退室"
-                }処理に成功しました`,
-                {
-                  position: toast.POSITION.TOP_CENTER,
-                  theme: "dark",
-                  closeButton: true,
-                  hideProgressBar: true,
-                  autoClose: 2000,
-                }
-              );
-              successBeep();
-              setInputId("");
-            }
-          })
-        }
+        onClick={handleClick}
       >
         記録する
       </Button>

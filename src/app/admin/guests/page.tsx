@@ -14,13 +14,18 @@ export default async function GuestSettingsPage() {
     .select()
     .from(guestsTable)
     .where(eq(guestsTable.available, true))
-    .orderBy(guestsTable.name)
+    .orderBy(guestsTable.id)
     .limit(20);
 
   return (
     <div>
       <Title level="h2">ゲスト管理</Title>
+      <Title level="h3">CSVから読み込む</Title>
       <LoadCSV />
+      <Title level="h3">ゲストを検索</Title>
+      <p>
+        <code>admin/history/guests/:guest_id</code>から確認できます
+      </p>
       <Title level="h3">一覧</Title>
       <table>
         <thead>

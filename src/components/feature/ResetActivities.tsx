@@ -5,14 +5,14 @@ import Title from "@/components/common/Title";
 import { deleteAllActivities } from "@/utils/actions";
 import { css } from "@panda/css";
 
-export default function resetActivities() {
+export default function resetActivities({ date }: { date: string }) {
   return (
     <div>
       <Title level="h3">データリセット</Title>
       <p className={css({ mb: 3 })}>
         すべてのゲストを削除します。この操作は取り消せません。
       </p>
-      <form action={deleteAllActivities}>
+      <form action={() => deleteAllActivities(date)}>
         <Button type="submit" variant="danger">
           リセットする
         </Button>

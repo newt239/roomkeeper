@@ -33,7 +33,7 @@ export default async function AdminLayout({
             <Link href="/admin/events">イベント管理</Link>
           </li>
           <li>
-            <Link href="/admin/history">履歴</Link>
+            <Link href="/admin/history">スキャン履歴</Link>
           </li>
         </ul>
       </div>

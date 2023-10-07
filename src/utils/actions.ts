@@ -3,7 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-import { and, desc, eq } from "drizzle-orm";
+import dayjs from "dayjs";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
 import { db } from "@/db/connect";
@@ -128,8 +129,19 @@ export async function deleteActivity(id: string) {
   return `${result.rowCount}件の入退室記録を削除しました。`;
 }
 
-export async function deleteAllActivities() {
-  const result = await db.delete(activitiesTable);
+export async function deleteAllActivities(date: string) {
+  const result = await db
+    .delete(activitiesTable)
+    .where(
+      and(
+        sql`${activitiesTable.timestamp} > ${dayjs(date).format(
+          "YYYY-MM-DD HH:mm:ss"
+        )}`,
+        sql`${activitiesTable.timestamp} < ${dayjs(date)
+          .add(1, "day")
+          .format("YYYY-MM-DD HH:mm:ss")}`
+      )
+    );
   revalidatePath("/admin/history");
   return `${result.rowCount}件の入退室記録を削除しました。`;
 }

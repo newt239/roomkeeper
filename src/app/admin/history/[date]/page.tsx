@@ -1,4 +1,5 @@
-import { desc, eq } from "drizzle-orm";
+import dayjs from "dayjs";
+import { and, desc, eq, sql } from "drizzle-orm";
 
 import Title from "@/components/common/Title";
 import ActivityRow from "@/components/feature/ActivityRow";
@@ -10,12 +11,34 @@ import { css } from "@panda/css";
 
 export const revalidate = 0;
 
-export default async function AllHistoryPage() {
+type Params = {
+  date: string;
+};
+
+export default async function SpecificDateHistoryPage({
+  params,
+}: {
+  params: Params;
+}) {
+  const date =
+    params.date === "today"
+      ? dayjs(dayjs().format("YYYY-MM-DD"))
+      : dayjs(params.date);
   const results = await db
     .select()
     .from(activitiesTable)
     .leftJoin(eventsTable, eq(eventsTable.id, activitiesTable.event_id))
-    .where(eq(activitiesTable.available, true))
+    .where(
+      and(
+        eq(activitiesTable.available, true),
+        sql`${activitiesTable.timestamp} > ${date.format(
+          "YYYY-MM-DD HH:mm:ss"
+        )}`,
+        sql`${activitiesTable.timestamp} < ${date
+          .add(1, "day")
+          .format("YYYY-MM-DD HH:mm:ss")}`
+      )
+    )
     .orderBy(desc(activitiesTable.timestamp));
 
   const activities = results.map((result) => {
@@ -30,7 +53,7 @@ export default async function AllHistoryPage() {
 
   return (
     <div>
-      <Title level="h2">すべてのスキャン履歴</Title>
+      <Title level="h2">{date.format("YYYY年MM月DD日")}のスキャン履歴</Title>
       <ExportActivities activities={activities} />
       <Title level="h3">一覧</Title>
       {activities.length === 0 ? (
@@ -57,7 +80,7 @@ export default async function AllHistoryPage() {
           </tbody>
         </table>
       )}
-      <ResetActivities />
+      <ResetActivities date={date.format("YYYY-MM-DD")} />
     </div>
   );
 }

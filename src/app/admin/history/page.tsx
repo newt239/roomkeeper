@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import dayjs from "dayjs";
 import { desc, eq } from "drizzle-orm";
 
 import Title from "@/components/common/Title";
@@ -38,7 +39,22 @@ export default async function HistoryPage() {
   return (
     <div>
       <Title level="h2">スキャン履歴</Title>
-      <Title level="h3">一覧</Title>
+      <Title level="h3">日別</Title>
+      <p className={css({ my: 4 })}>
+        <ul>
+          <li>
+            <Link href="/admin/history/today">
+              今日 - {dayjs().format("MM/DD")}
+            </Link>
+          </li>
+          <li>
+            <Link href={`/admin/history/${dayjs().format("YYYY-MM-DD")}`}>
+              昨日 - {dayjs().add(-1, "day").format("MM/DD")}
+            </Link>
+          </li>
+        </ul>
+      </p>
+      <Title level="h3">直近の記録</Title>
       {results.length === 0 ? (
         <p>履歴がありません。</p>
       ) : (
@@ -63,9 +79,6 @@ export default async function HistoryPage() {
           </tbody>
         </table>
       )}
-      <p className={css({ my: 4 })}>
-        <Link href="/history/all">すべての履歴を見る</Link>
-      </p>
     </div>
   );
 }
