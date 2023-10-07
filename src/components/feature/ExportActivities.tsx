@@ -11,6 +11,7 @@ type Props = {
   activities: {
     id: string;
     guest_id: string;
+    guest_name: string;
     event_name: string;
     type: string;
     timestamp: Date;
@@ -30,6 +31,7 @@ export default function ExportActivities({ activities }: Props) {
     worksheet.columns = [
       { header: "ID", key: "id" },
       { header: "ゲストID", key: "guest_id" },
+      { header: "ゲスト名", key: "guest_name" },
       { header: "イベント名", key: "event_name" },
       { header: "種別", key: "type" },
       { header: "タイムスタンプ", key: "timestamp" },

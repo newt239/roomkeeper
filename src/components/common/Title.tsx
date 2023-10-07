@@ -25,7 +25,8 @@ export default function Title({ level, children }: Props) {
         <h3
           className={css({
             fontSize: "2xl",
-            my: 2,
+            mt: 4,
+            mb: 2,
             borderBottomStyle: "solid",
             borderBottomWidth: 2,
             borderBottomColor: "gray.800",
@@ -35,6 +36,24 @@ export default function Title({ level, children }: Props) {
         </h3>
       );
     case "h4":
-      return <h4>{children}</h4>;
+      return (
+        <h4
+          className={css({
+            fontSize: "xl",
+            fontWeight: 700,
+            mt: 4,
+            mb: 2,
+            pl: 2,
+            borderLeftStyle: "solid",
+            borderLeftWidth: 8,
+            borderLeftColor: "gray.800",
+            _osDark: {
+              borderLeftColor: "gray.200",
+            },
+          })}
+        >
+          {children}
+        </h4>
+      );
   }
 }

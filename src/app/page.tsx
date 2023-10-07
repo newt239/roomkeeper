@@ -28,12 +28,6 @@ export default async function HomePage() {
           </li>
         ))}
       </ul>
-      <Title level="h3">使い方</Title>
-      <ul>
-        <li>
-          イベントの削除は事前に入退室記録をすべて削除してから実行してください。
-        </li>
-      </ul>
       <Title level="h3">アプリ情報</Title>
       <ul>
         <li>v{APP_VERSION}</li>

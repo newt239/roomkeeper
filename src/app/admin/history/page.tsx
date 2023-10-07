@@ -6,7 +6,7 @@ import { desc, eq } from "drizzle-orm";
 import Title from "@/components/common/Title";
 import ActivityRow from "@/components/feature/ActivityRow";
 import { db } from "@/db/connect";
-import { activitiesTable, eventsTable } from "@/db/schema";
+import { activitiesTable, eventsTable, guestsTable } from "@/db/schema";
 import { css } from "@panda/css";
 
 export const revalidate = 0;
@@ -16,6 +16,7 @@ export default async function HistoryPage() {
     .select()
     .from(activitiesTable)
     .leftJoin(eventsTable, eq(eventsTable.id, activitiesTable.event_id))
+    .leftJoin(guestsTable, eq(guestsTable.id, activitiesTable.guest_id))
     .where(eq(activitiesTable.available, true))
     .orderBy(desc(activitiesTable.timestamp))
     .limit(20);
@@ -30,6 +31,7 @@ export default async function HistoryPage() {
     return {
       id: result.activities.id,
       guest_id: result.activities.guest_id,
+      guest_name: result.guests?.name || "削除されたゲスト",
       event_name: result.events?.name || "削除されたイベント",
       type: result.activities.type,
       timestamp: result.activities.timestamp,

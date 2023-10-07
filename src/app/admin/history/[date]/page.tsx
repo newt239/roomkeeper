@@ -6,7 +6,7 @@ import ActivityRow from "@/components/feature/ActivityRow";
 import ExportActivities from "@/components/feature/ExportActivities";
 import ResetActivities from "@/components/feature/ResetActivities";
 import { db } from "@/db/connect";
-import { activitiesTable, eventsTable } from "@/db/schema";
+import { activitiesTable, eventsTable, guestsTable } from "@/db/schema";
 import { css } from "@panda/css";
 
 export const revalidate = 0;
@@ -28,6 +28,7 @@ export default async function SpecificDateHistoryPage({
     .select()
     .from(activitiesTable)
     .leftJoin(eventsTable, eq(eventsTable.id, activitiesTable.event_id))
+    .leftJoin(guestsTable, eq(guestsTable.id, activitiesTable.guest_id))
     .where(
       and(
         eq(activitiesTable.available, true),
@@ -45,6 +46,7 @@ export default async function SpecificDateHistoryPage({
     return {
       id: result.activities.id,
       guest_id: result.activities.guest_id,
+      guest_name: result.guests?.name || "削除されたゲスト",
       event_name: result.events?.name || "削除されたイベント",
       type: result.activities.type,
       timestamp: result.activities.timestamp,
@@ -63,10 +65,10 @@ export default async function SpecificDateHistoryPage({
           <thead>
             <tr>
               <th>ゲストID</th>
+              <th>ゲスト名</th>
               <th>イベント名</th>
               <th>種別</th>
               <th>タイムスタンプ</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
