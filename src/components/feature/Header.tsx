@@ -19,6 +19,7 @@ export default async function Header() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-between",
+        overflow: "hidden",
         sm: {
           flexDirection: "row",
           py: 0,

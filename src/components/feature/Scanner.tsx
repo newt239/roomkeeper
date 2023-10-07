@@ -40,7 +40,6 @@ export default function Scanner({
     navigator.mediaDevices
       .enumerateDevices()
       .then((mediaDevices) => {
-        console.log(mediaDevices);
         return mediaDevices
           .filter((device) => device.kind === "videoinput")
           .map((device) => {
@@ -82,44 +81,22 @@ export default function Scanner({
   return (
     <div
       className={css({
-        m: 4,
+        m: 2,
         display: "flex",
         gap: 4,
         flexDirection: "column",
         alignItems: "center",
       })}
     >
-      <label className={css({ cursor: "pointer" })} htmlFor="wake">
-        <Input
-          checked={cameraState}
-          id="wake"
-          onChange={() => setCameraState((v) => !v)}
-          type="checkbox"
-        />
-        カメラを{cameraState ? "停止" : "起動"}する
-      </label>
-      <label className={css({ cursor: "pointer" })} htmlFor="switch">
-        <Input
-          checked={reverseCamera}
-          id="switch"
-          onChange={() => {
-            (async () =>
-              saveToCookie(
-                "reverse_camera",
-                reverseCamera ? "false" : "true"
-              ))();
-            setReverseCamera((v) => !v);
-          }}
-          type="checkbox"
-        />
-        カメラを反転する
-      </label>
       <div
         className={css({
-          w: "min(50vw, 60vh)",
           maxW: "100%",
+          w: "min(100%, 500px)",
           aspectRatio: "1/1",
           position: "relative",
+          lg: {
+            w: "min(50vw, 60vh)",
+          },
         })}
       >
         <div
@@ -193,6 +170,39 @@ export default function Scanner({
             />
           )}
         </div>
+      </div>
+      <div
+        className={css({
+          display: "flex",
+          gap: 2,
+          flexDirection: "row",
+        })}
+      >
+        <label className={css({ cursor: "pointer" })} htmlFor="wake">
+          <Input
+            checked={cameraState}
+            id="wake"
+            onChange={() => setCameraState((v) => !v)}
+            type="checkbox"
+          />
+          カメラを起動
+        </label>
+        <label className={css({ cursor: "pointer" })} htmlFor="switch">
+          <Input
+            checked={reverseCamera}
+            id="switch"
+            onChange={() => {
+              (async () =>
+                saveToCookie(
+                  "reverse_camera",
+                  reverseCamera ? "false" : "true"
+                ))();
+              setReverseCamera((v) => !v);
+            }}
+            type="checkbox"
+          />
+          カメラを反転
+        </label>
       </div>
       {currentDeviceId && deviceList.length > 0 && (
         <div

@@ -47,7 +47,7 @@ const globalCss = defineGlobalStyles({
     px: 4,
     borderRadius: "md",
     borderStyle: "solid",
-    borderColor: "gray.100",
+    borderColor: "gray.300",
     borderWidth: "1px",
     _osDark: {
       borderColor: "gray.800",
