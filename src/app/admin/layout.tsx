@@ -12,7 +12,7 @@ export default async function AdminLayout({
       className={css({
         display: "flex",
         flexDirection: "column",
-        gap: 4,
+        gap: "12px",
         lg: {
           flexDirection: "row",
         },
@@ -40,7 +40,7 @@ export default async function AdminLayout({
       <div
         className={css({
           lg: {
-            w: "calc(100% - 200px)",
+            w: "calc(100% - 212px)",
           },
         })}
       >

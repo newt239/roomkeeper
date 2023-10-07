@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 
-import { IconCameraRotate } from "@tabler/icons-react";
+import { IconLoader } from "@tabler/icons-react";
 import { QrReader } from "react-qr-reader";
 import { toast } from "react-toastify";
 
@@ -17,7 +17,7 @@ type DeviceProps = {
 
 type Props = {
   event_id: string;
-  defaultCameraDeviceId: string;
+  defaultCameraDeviceId: string | null;
   defaultReverseCamera: boolean;
 };
 
@@ -28,7 +28,7 @@ export default function Scanner({
 }: Props) {
   const [isPending, startTransition] = useTransition();
   const [cameraState, setCameraState] = useState<boolean>(false);
-  const [currentDeviceId, setCurrentDeviceId] = useState<string>(
+  const [currentDeviceId, setCurrentDeviceId] = useState<string | null>(
     defaultCameraDeviceId
   );
   const [reverseCamera, setReverseCamera] =
@@ -38,16 +38,17 @@ export default function Scanner({
   const getCameraDeviceList = () => {
     navigator.mediaDevices
       .enumerateDevices()
-      .then((mediaDevices) =>
-        mediaDevices
+      .then((mediaDevices) => {
+        console.log(mediaDevices);
+        return mediaDevices
           .filter((device) => device.kind === "videoinput")
           .map((device) => {
             return {
               label: device.label,
               deviceId: device.deviceId,
             };
-          })
-      )
+          });
+      })
       .then((devices) => {
         setDeviceList(devices);
         if (currentDeviceId === "" && devices.length !== 0) {
@@ -76,23 +77,6 @@ export default function Scanner({
   useEffect(() => {
     if (!refreshQrReader) setRefreshQrReader(true);
   }, [refreshQrReader]);
-
-  const onClickChangeCameraIcon = () => {
-    getCameraDeviceList();
-    if (deviceList.length === 2) {
-      const newCurrentDevice = deviceList.find((v) => {
-        if (v.deviceId !== currentDeviceId) {
-          return v;
-        }
-      });
-      if (newCurrentDevice) {
-        (async () =>
-          await saveToCookie("camera_device_id", newCurrentDevice.deviceId))();
-        setCurrentDeviceId(newCurrentDevice.deviceId);
-        setRefreshQrReader(false);
-      }
-    }
-  };
 
   return (
     <div
@@ -153,7 +137,26 @@ export default function Scanner({
             _osDark: { bgColor: "gray.700", borderColor: "gray.600" },
           })}
         >
-          {refreshQrReader && cameraState && (
+          {cameraState && (
+            <div
+              className={css({
+                color: "black",
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translateY(-50%) translateX(-50%)",
+                _osDark: { color: "white" },
+              })}
+            >
+              <IconLoader
+                className={css({
+                  animation: "spin 1s linear infinite",
+                })}
+                size={64}
+              />
+            </div>
+          )}
+          {refreshQrReader && cameraState && currentDeviceId && (
             <QrReader
               constraints={{
                 facingMode: "environment",
@@ -188,32 +191,37 @@ export default function Scanner({
             />
           )}
         </div>
-        <button
-          className={css({
-            position: "absolute",
-            color: "black",
-            top: 0,
-            right: 0,
-            p: 2,
-            m: 1,
-            borderRadius: "1rem",
-            transform: "translateZ(0.8px)",
-            transition: "all 0.2s ease",
-            cursor: "pointer",
-            _osDark: {
-              color: "white",
-            },
-            _hover: {
-              bgColor: "gray.300",
-              _osDark: { bgColor: "gray.800" },
-            },
-          })}
-          onClick={onClickChangeCameraIcon}
-          title="カメラ切り替え"
-        >
-          <IconCameraRotate />
-        </button>
       </div>
+      {currentDeviceId && deviceList.length > 0 && (
+        <div
+          className={css({
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 2,
+          })}
+        >
+          <select
+            className={css({
+              w: "80%",
+            })}
+            onChange={(e) => {
+              setCurrentDeviceId(e.target.value);
+              setRefreshQrReader(false);
+              (async () =>
+                await saveToCookie("camera_device_id", e.target.value))();
+              getCameraDeviceList();
+            }}
+            value={currentDeviceId}
+          >
+            {deviceList.map((device) => (
+              <option key={device.deviceId} value={device.deviceId}>
+                {device.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
     </div>
   );
 }

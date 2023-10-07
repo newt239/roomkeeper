@@ -2,6 +2,7 @@ import { cva, cx } from "@panda/css";
 
 const buttonStyle = cva({
   base: {
+    color: "white",
     py: 2,
     px: 4,
     borderRadius: 4,
@@ -9,17 +10,11 @@ const buttonStyle = cva({
     cursor: "pointer",
     transition: "all 0.2s ease-in-out",
     _disabled: {
-      bgColor: "gray.300",
-      cursor: "not-allowed",
+      bgColor: "gray.500",
       _hover: {
-        bgColor: "gray.300",
+        bgColor: "gray.500",
       },
-      _osDark: {
-        bgColor: "gray.700",
-        _hover: {
-          bgColor: "gray.700",
-        },
-      },
+      opacity: 0.5,
     },
   },
   variants: {

@@ -29,6 +29,7 @@ export default async function RootLayout({
         <Header />
         <main
           className={css({
+            px: 4,
             lg: {
               px: 8,
             },
