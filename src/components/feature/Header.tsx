@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import Menus from "@/components/feature/Menus";
 import { css } from "@panda/css";
 
 export default async function Header() {
@@ -40,13 +39,6 @@ export default async function Header() {
           Roomkeeper
         </h1>
       </Link>
-      <div
-        className={css({
-          display: "flex",
-        })}
-      >
-        <Menus />
-      </div>
     </header>
   );
 }

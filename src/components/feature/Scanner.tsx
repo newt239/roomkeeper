@@ -1,13 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 import { IconCameraRotate } from "@tabler/icons-react";
 import { QrReader } from "react-qr-reader";
+import { toast } from "react-toastify";
 
 import Input from "@/components/common/Input";
-import { saveToCookie } from "@/utils/actions";
+import { addActivity, saveToCookie } from "@/utils/actions";
 import { css } from "@panda/css";
 
 type DeviceProps = {
@@ -16,15 +16,17 @@ type DeviceProps = {
 };
 
 type Props = {
+  event_id: string;
   defaultCameraDeviceId: string;
   defaultReverseCamera: boolean;
 };
 
 export default function Scanner({
+  event_id,
   defaultCameraDeviceId,
   defaultReverseCamera,
 }: Props) {
-  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const [cameraState, setCameraState] = useState<boolean>(false);
   const [currentDeviceId, setCurrentDeviceId] = useState<string>(
     defaultCameraDeviceId
@@ -159,7 +161,28 @@ export default function Scanner({
               }}
               onResult={(result, _error) => {
                 if (!!result) {
-                  router.push(`/${result.getText()}`);
+                  startTransition(async () => {
+                    const res = await addActivity({
+                      event_id,
+                      guest_id: result.getText(),
+                    });
+                    if (res === null) {
+                      toast.error("エラーが発生しました");
+                    } else {
+                      toast.success(
+                        `${res.guest_id}の${
+                          res.type === "enter" ? "入室" : "退室"
+                        }処理に成功しました`,
+                        {
+                          position: toast.POSITION.TOP_CENTER,
+                          theme: "dark",
+                          closeButton: true,
+                          hideProgressBar: true,
+                          autoClose: 2000,
+                        }
+                      );
+                    }
+                  });
                 }
               }}
             />

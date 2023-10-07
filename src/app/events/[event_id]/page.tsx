@@ -1,6 +1,7 @@
 import { and, eq, sql } from "drizzle-orm";
 
 import Title from "@/components/common/Title";
+import DirectInput from "@/components/feature/DirectInput";
 import EventGuestRow from "@/components/feature/EventGuestRow";
 import { db } from "@/db/connect";
 import { eventsTable } from "@/db/schema";
@@ -42,7 +43,7 @@ export default async function EventIdPage({ params }: { params: Params }) {
     name: string;
   }[];
 
-  if (events.length === 0) {
+  if (events.length !== 1) {
     return (
       <div>
         <Title level="h2">イベント</Title>
@@ -53,8 +54,10 @@ export default async function EventIdPage({ params }: { params: Params }) {
 
   return (
     <div>
-      <Title level="h2">滞在状況</Title>
-      <Title level="h3">{events[0].name}</Title>
+      <Title level="h2">{events[0].name}</Title>
+      <Title level="h3">IDを直接入力する</Title>
+      <DirectInput event_id={params.event_id} />
+      <Title level="h3">滞在中のゲスト</Title>
       {result.rowCount === 0 ? (
         <p>現在滞在中のゲストはいません。</p>
       ) : (

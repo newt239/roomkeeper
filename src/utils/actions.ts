@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-import { eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
 import { db } from "@/db/connect";
@@ -48,12 +48,34 @@ export async function deleteAllGuests() {
 export async function addActivity({
   event_id,
   guest_id,
-  type,
 }: {
   event_id: string;
   guest_id: string;
-  type: "enter" | "exit";
 }) {
+  const guests = await db
+    .select()
+    .from(guestsTable)
+    .where(and(eq(guestsTable.id, guest_id), eq(guestsTable.available, true)))
+    .limit(1);
+  if (guests.length !== 1) {
+    return null;
+  }
+  const activities = await db
+    .select()
+    .from(activitiesTable)
+    .where(
+      and(
+        eq(activitiesTable.guest_id, guest_id),
+        eq(activitiesTable.event_id, event_id),
+        eq(activitiesTable.available, true)
+      )
+    )
+    .orderBy(desc(activitiesTable.timestamp))
+    .limit(1);
+  const type =
+    activities.length === 1 && activities[0].type === "enter"
+      ? "exit"
+      : "enter";
   await db.insert(activitiesTable).values({
     id: nanoid(),
     guest_id,

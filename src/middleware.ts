@@ -17,10 +17,17 @@ export function middleware(req: NextRequest) {
     const [user, pwd] = atob(authValue).split(":");
 
     if (
+      user === process.env.BASIC_AUTH_ADMIN_USER &&
+      pwd === process.env.BASIC_AUTH_ADMIN_PASSWORD
+    ) {
+      return NextResponse.next();
+    } else if (
       user === process.env.BASIC_AUTH_USER &&
       pwd === process.env.BASIC_AUTH_PASSWORD
     ) {
-      return NextResponse.next();
+      if (!url.pathname.startsWith("/admin")) {
+        return NextResponse.next();
+      }
     }
   }
   url.pathname = "/api/basic-auth";

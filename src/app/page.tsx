@@ -1,26 +1,32 @@
+import Link from "next/link";
+
+import { eq } from "drizzle-orm";
+
 import Title from "@/components/common/Title";
+import { db } from "@/db/connect";
+import { eventsTable } from "@/db/schema";
 
 const APP_VERSION = "0.5.1";
 const LAST_UPDATE = "2023/09/01 23:00";
 
 export default async function HomePage() {
+  const events = await db
+    .select()
+    .from(eventsTable)
+    .where(eq(eventsTable.available, true));
+
   return (
     <div>
       <Title level="h2">簡易入退室記録システム</Title>
-      <Title level="h3">メニュー</Title>
+      <Title level="h3">イベント選択</Title>
       <ul>
-        <li>
-          <a href="/scan">スキャン</a>
-        </li>
-        <li>
-          <a href="/events">滞在状況</a>
-        </li>
-        <li>
-          <a href="/history">履歴</a>
-        </li>
-        <li>
-          <a href="/settings">設定</a>
-        </li>
+        {events.map((event) => (
+          <li key={event.id}>
+            <Link href={`events/${event.id}`} key={event.id}>
+              {event.name}
+            </Link>
+          </li>
+        ))}
       </ul>
       <Title level="h3">使い方</Title>
       <ul>
