@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import dayjs from "dayjs";
 import { eq } from "drizzle-orm";
 
@@ -40,6 +42,8 @@ export default async function EventIDPage({ params }: { params: Params }) {
       <Title level="h2">{event.name}</Title>
       <Title level="h3">イベントID</Title>
       <p>{event.id}</p>
+      <Title level="h3">スキャン</Title>
+      <Link href={`/events/${event.id}`}>「{event.name}」のスキャンをする</Link>
       <Title level="h3">履歴</Title>
       {activities.length === 0 ? (
         <p>履歴がありません。</p>
