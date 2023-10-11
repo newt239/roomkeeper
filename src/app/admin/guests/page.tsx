@@ -9,6 +9,8 @@ import { guestsTable } from "@/db/schema";
 import { deleteAllGuests } from "@/utils/actions";
 import { css } from "@panda/css";
 
+export const revalidate = 0;
+
 export default async function GuestSettingsPage() {
   const guests = await db
     .select()

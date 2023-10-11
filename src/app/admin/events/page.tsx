@@ -10,6 +10,8 @@ import { eventsTable } from "@/db/schema";
 import { createEvent } from "@/utils/actions";
 import { css } from "@panda/css";
 
+export const revalidate = 0;
+
 export default async function EventSettingsPage() {
   const events = await db
     .select()

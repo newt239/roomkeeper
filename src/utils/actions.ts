@@ -112,12 +112,14 @@ export async function createEvent(formData: FormData) {
     name,
     available: true,
   });
-  revalidatePath("/settings/events");
+  revalidatePath("/admin/events");
+  revalidatePath("/");
   return `${name}というイベントを作成しました。`;
 }
 export async function deleteEvent(id: string) {
   const result = await db.delete(eventsTable).where(eq(eventsTable.id, id));
   revalidatePath("/admin/events");
+  revalidatePath("/");
   return `${result.rowCount}件の入退室記録を削除しました。`;
 }
 
@@ -148,8 +150,4 @@ export async function deleteAllActivities(date: string) {
 
 export async function saveToCookie(key: string, value: string) {
   cookies().set(key, value);
-}
-
-export async function revalidateSpecificPath(path: string) {
-  revalidatePath(path);
 }
