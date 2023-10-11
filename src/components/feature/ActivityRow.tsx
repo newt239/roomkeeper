@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useTransition } from "react";
 
 import { IconTrash } from "@tabler/icons-react";
@@ -25,7 +26,11 @@ export default function ActivityRow({ activity, latestIdList }: Props) {
 
   return (
     <tr>
-      <td>{activity.guest_id}</td>
+      <td>
+        <Link href={`/admin/guests/${activity.guest_id}`}>
+          {activity.guest_id}
+        </Link>
+      </td>
       <td>{activity.guest_name}</td>
       <td>{activity.event_name}</td>
       <td>{activity.type === "enter" ? "入室" : "退室"}</td>

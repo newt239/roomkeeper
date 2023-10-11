@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useTransition } from "react";
 
 import { IconTrash } from "@tabler/icons-react";
@@ -17,7 +18,9 @@ export default function EachEvent({ event_id, event_name }: Props) {
 
   return (
     <tr>
-      <td>{event_id}</td>
+      <td>
+        <Link href={`/admin/events/${event_id}`}>{event_id}</Link>
+      </td>
       <td>{event_name}</td>
       <td>
         <Button

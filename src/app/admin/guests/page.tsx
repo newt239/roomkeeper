@@ -26,7 +26,7 @@ export default async function GuestSettingsPage() {
       <LoadCSV />
       <Title level="h3">ゲストを検索</Title>
       <p>
-        <code>admin/history/guests/:guest_id</code>から確認できます
+        <code>admin/guests/:guest_id</code>から確認できます
       </p>
       <Title level="h3">一覧</Title>
       <table>
