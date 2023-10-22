@@ -20,15 +20,19 @@ export default async function HomePage() {
     <div>
       <Title level="h2">簡易入退室記録システム</Title>
       <Title level="h3">イベント選択</Title>
-      <ul>
-        {events.map((event) => (
-          <li key={event.id}>
-            <Link href={`events/${event.id}`} key={event.id}>
-              {event.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {events.length === 0 ? (
+        <p>イベントがありません。</p>
+      ) : (
+        <ul>
+          {events.map((event) => (
+            <li key={event.id}>
+              <Link href={`events/${event.id}`} key={event.id}>
+                {event.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
       <Title level="h3">アプリ情報</Title>
       <p
         className={css({

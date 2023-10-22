@@ -35,7 +35,7 @@ export default async function EventIdPage({ params }: { params: Params }) {
     JOIN guests ON guests.id = r.guest_id;
   `);
 
-  const guests = result.rows as {
+  const guests = result as unknown as {
     guest_id: string;
     enter_at: Date;
     name: string;
@@ -56,7 +56,7 @@ export default async function EventIdPage({ params }: { params: Params }) {
       <Title level="h3">IDを直接入力する</Title>
       <DirectInput event_id={params.event_id} />
       <Title level="h3">滞在中のゲスト</Title>
-      {result.rowCount === 0 ? (
+      {result.length === 0 ? (
         <p>現在滞在中のゲストはいません。</p>
       ) : (
         <table className={css({ mt: 4 })}>
