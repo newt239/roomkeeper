@@ -3,12 +3,13 @@
 import { useEffect, useState, useTransition } from "react";
 
 import { IconLoader } from "@tabler/icons-react";
+import dayjs, { Dayjs } from "dayjs";
 import { QrReader } from "react-qr-reader";
 import { toast } from "react-toastify";
 
 import Input from "@/components/common/Input";
 import { addActivity, saveToCookie } from "@/utils/actions";
-import { successBeep } from "@/utils/tone";
+import { errorBeep, successBeep } from "@/utils/tone";
 import { USER_ID_LENGTH } from "@/utils/vars";
 import { css } from "@panda/css";
 
@@ -36,6 +37,7 @@ export default function Scanner({
   const [reverseCamera, setReverseCamera] =
     useState<boolean>(defaultReverseCamera);
   const [deviceList, setDeviceList] = useState<DeviceProps[]>([]);
+  const [lastScan, setLastScan] = useState<Dayjs>(dayjs());
 
   const getCameraDeviceList = () => {
     navigator.mediaDevices
@@ -141,17 +143,23 @@ export default function Scanner({
                 facingMode: "environment",
                 deviceId: currentDeviceId,
               }}
-              onResult={(result, _error) => {
-                if (!!result) {
-                  startTransition(async () => {
-                    const guest_id = result.getText();
-                    if (guest_id.length === USER_ID_LENGTH) {
+              onResult={async (result, error) => {
+                if (!!result && !error && !isPending) {
+                  const guest_id = result.getText();
+                  const scanTime = dayjs(result.getTimestamp());
+                  if (
+                    guest_id.length === USER_ID_LENGTH &&
+                    scanTime.diff(lastScan) > 1000
+                  ) {
+                    await setLastScan(scanTime);
+                    await startTransition(async () => {
                       const res = await addActivity({
                         event_id,
                         guest_id,
                       });
                       if (res === null) {
                         toast.error(`${guest_id}というゲストは存在しません`);
+                        await errorBeep();
                       } else {
                         toast.success(
                           `${res.guest_id}の${
@@ -165,12 +173,13 @@ export default function Scanner({
                             autoClose: 2000,
                           }
                         );
-                        successBeep();
+                        await successBeep();
                       }
-                    }
-                  });
+                    });
+                  }
                 }
               }}
+              scanDelay={1000}
             />
           )}
         </div>
