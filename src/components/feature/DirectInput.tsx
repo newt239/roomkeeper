@@ -9,6 +9,7 @@ import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import { addActivity } from "@/utils/actions";
 import { errorBeep, successBeep } from "@/utils/tone";
+import { USER_ID_LENGTH } from "@/utils/vars";
 import { css } from "@panda/css";
 
 type Props = {
@@ -62,7 +63,7 @@ export default function DirectInput({ event_id }: Props) {
         name="user_id"
         onChange={(e) => setInputId(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
+          if (e.key === "Enter" && inputId.length === USER_ID_LENGTH) {
             handleClick();
           }
         }}
@@ -70,7 +71,7 @@ export default function DirectInput({ event_id }: Props) {
         value={inputId}
       />
       <Button
-        disabled={inputId.length === 0 || isPending}
+        disabled={inputId.length !== USER_ID_LENGTH || isPending}
         onClick={handleClick}
       >
         <IconWriting />

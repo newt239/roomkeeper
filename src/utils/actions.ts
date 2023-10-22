@@ -25,7 +25,7 @@ export async function importGuests(guests: string[][]) {
     try {
       const result = await db.insert(guestsTable).values(guestList);
       revalidatePath("/admin/guests");
-      return `${result.rowCount}件のデータをインポートしました。`;
+      return `${result.length}件のデータをインポートしました。`;
     } catch (e) {
       return "エラーが発生しました。データ型が不適切か、すでにデータベースに同じIDが登録されている可能性があります。";
     }
@@ -35,15 +35,15 @@ export async function importGuests(guests: string[][]) {
 }
 
 export async function deleteGuest(id: string) {
-  const result = await db.delete(guestsTable).where(eq(guestsTable.id, id));
+  await db.delete(guestsTable).where(eq(guestsTable.id, id));
   revalidatePath("/admin/guests");
-  return `${result.rowCount}件のゲストを削除しました。`;
+  return `ゲストを削除しました。`;
 }
 
 export async function deleteAllGuests() {
   const result = await db.delete(guestsTable);
   revalidatePath("/admin/guests");
-  return `${result.rowCount}件のゲストを削除しました。`;
+  return `${result.length}件のゲストを削除しました。`;
 }
 
 export async function addActivity({
@@ -120,7 +120,7 @@ export async function deleteEvent(id: string) {
   const result = await db.delete(eventsTable).where(eq(eventsTable.id, id));
   revalidatePath("/admin/events");
   revalidatePath("/");
-  return `${result.rowCount}件の入退室記録を削除しました。`;
+  return `${result.length}件の入退室記録を削除しました。`;
 }
 
 export async function deleteActivity(id: string) {
@@ -128,7 +128,7 @@ export async function deleteActivity(id: string) {
     .delete(activitiesTable)
     .where(eq(activitiesTable.id, id));
   revalidatePath("/admin/history");
-  return `${result.rowCount}件の入退室記録を削除しました。`;
+  return `${result.length}件の入退室記録を削除しました。`;
 }
 
 export async function deleteAllActivities(date: string) {
@@ -145,7 +145,7 @@ export async function deleteAllActivities(date: string) {
       )
     );
   revalidatePath("/admin/history");
-  return `${result.rowCount}件の入退室記録を削除しました。`;
+  return `${result.length}件の入退室記録を削除しました。`;
 }
 
 export async function saveToCookie(key: string, value: string) {

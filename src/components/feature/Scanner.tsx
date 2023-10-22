@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import Input from "@/components/common/Input";
 import { addActivity, saveToCookie } from "@/utils/actions";
 import { successBeep } from "@/utils/tone";
+import { USER_ID_LENGTH } from "@/utils/vars";
 import { css } from "@panda/css";
 
 type DeviceProps = {
@@ -143,28 +144,29 @@ export default function Scanner({
               onResult={(result, _error) => {
                 if (!!result) {
                   startTransition(async () => {
-                    const res = await addActivity({
-                      event_id,
-                      guest_id: result.getText(),
-                    });
-                    if (res === null) {
-                      toast.error(
-                        `${result.getText()}というゲストは存在しません`
-                      );
-                    } else {
-                      toast.success(
-                        `${res.guest_id}の${
-                          res.type === "enter" ? "入室" : "退室"
-                        }処理に成功しました`,
-                        {
-                          position: toast.POSITION.TOP_CENTER,
-                          theme: "dark",
-                          closeButton: true,
-                          hideProgressBar: true,
-                          autoClose: 2000,
-                        }
-                      );
-                      successBeep();
+                    const guest_id = result.getText();
+                    if (guest_id.length === USER_ID_LENGTH) {
+                      const res = await addActivity({
+                        event_id,
+                        guest_id,
+                      });
+                      if (res === null) {
+                        toast.error(`${guest_id}というゲストは存在しません`);
+                      } else {
+                        toast.success(
+                          `${res.guest_id}の${
+                            res.type === "enter" ? "入室" : "退室"
+                          }処理に成功しました`,
+                          {
+                            position: toast.POSITION.TOP_CENTER,
+                            theme: "dark",
+                            closeButton: true,
+                            hideProgressBar: true,
+                            autoClose: 2000,
+                          }
+                        );
+                        successBeep();
+                      }
                     }
                   });
                 }
