@@ -28,6 +28,8 @@ export default function ExportActivities({ activities }: Props) {
     workbook.addWorksheet("roomkeeper_activities");
     const worksheet = workbook.getWorksheet("roomkeeper_activities");
 
+    if (!worksheet) return;
+
     worksheet.columns = [
       { header: "ID", key: "id" },
       { header: "ゲストID", key: "guest_id" },
