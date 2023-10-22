@@ -3,7 +3,6 @@
 import { useEffect, useState, useTransition } from "react";
 
 import { IconLoader } from "@tabler/icons-react";
-import dayjs, { Dayjs } from "dayjs";
 import { QrReader } from "react-qr-reader";
 import { toast } from "react-toastify";
 
@@ -37,7 +36,8 @@ export default function Scanner({
   const [reverseCamera, setReverseCamera] =
     useState<boolean>(defaultReverseCamera);
   const [deviceList, setDeviceList] = useState<DeviceProps[]>([]);
-  const [lastScan, setLastScan] = useState<Dayjs>(dayjs());
+  const [isProccessing, setIsProccessing] = useState<boolean>(false);
+  const [guestId, setGuestId] = useState<string>("");
 
   const getCameraDeviceList = () => {
     navigator.mediaDevices
@@ -64,6 +64,39 @@ export default function Scanner({
     setCameraState(true);
     getCameraDeviceList();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (guestId.length === USER_ID_LENGTH && !isProccessing) {
+        await setIsProccessing(true);
+        await startTransition(async () => {
+          const res = await addActivity({
+            event_id,
+            guest_id: guestId,
+          });
+          if (res === null) {
+            toast.error(`${guestId}というゲストは存在しません`);
+            await errorBeep();
+          } else {
+            toast.success(
+              `${res.guest_id}の${
+                res.type === "enter" ? "入室" : "退室"
+              }処理に成功しました`,
+              {
+                position: toast.POSITION.TOP_CENTER,
+                theme: "dark",
+                closeButton: true,
+                hideProgressBar: true,
+                autoClose: 2000,
+              }
+            );
+            await successBeep();
+          }
+        });
+        await setIsProccessing(false);
+      }
+    })();
+  }, [guestId]);
 
   const [refreshQrReader, setRefreshQrReader] = useState(true);
   const interval = 2 * 60 * 1000;
@@ -146,37 +179,7 @@ export default function Scanner({
               onResult={async (result, error) => {
                 if (!!result && !error && !isPending) {
                   const guest_id = result.getText();
-                  const scanTime = dayjs(result.getTimestamp());
-                  if (
-                    guest_id.length === USER_ID_LENGTH &&
-                    scanTime.diff(lastScan) > 1000
-                  ) {
-                    await setLastScan(scanTime);
-                    await startTransition(async () => {
-                      const res = await addActivity({
-                        event_id,
-                        guest_id,
-                      });
-                      if (res === null) {
-                        toast.error(`${guest_id}というゲストは存在しません`);
-                        await errorBeep();
-                      } else {
-                        toast.success(
-                          `${res.guest_id}の${
-                            res.type === "enter" ? "入室" : "退室"
-                          }処理に成功しました`,
-                          {
-                            position: toast.POSITION.TOP_CENTER,
-                            theme: "dark",
-                            closeButton: true,
-                            hideProgressBar: true,
-                            autoClose: 2000,
-                          }
-                        );
-                        await successBeep();
-                      }
-                    });
-                  }
+                  setGuestId(guest_id);
                 }
               }}
               scanDelay={1000}
