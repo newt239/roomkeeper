@@ -7,8 +7,8 @@ import { db } from "@/db/connect";
 import { eventsTable } from "@/db/schema";
 import { css } from "@panda/css";
 
-const APP_VERSION = "0.6.2";
-const LAST_UPDATE = "2023/10/12 01:20";
+const APP_VERSION = "0.7.0";
+const LAST_UPDATE = "2023/10/22 13:30";
 
 export default async function HomePage() {
   const events = await db
