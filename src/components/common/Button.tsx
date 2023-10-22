@@ -43,12 +43,25 @@ const buttonStyle = cva({
           boxShadow: "0 0 0 3px rgba(245, 101, 101, 0.6)",
         },
       },
+      ghost: {
+        bgColor: "transparent",
+        borderStyle: "solid",
+        borderWidth: 2,
+        borderColor: "blue.500",
+        _hover: {
+          bgColor: "blue.500",
+        },
+        _focus: {
+          borderColor: "blue.500",
+          boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)",
+        },
+      },
     },
   },
 });
 
 type Props = JSX.IntrinsicElements["button"] & {
-  variant?: "default" | "danger";
+  variant?: "default" | "danger" | "ghost";
 };
 
 export default function Button({

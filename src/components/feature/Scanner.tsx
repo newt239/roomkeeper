@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 
-import { IconLoader } from "@tabler/icons-react";
+import { IconLoader, IconScan, IconX } from "@tabler/icons-react";
 import { QrReader } from "react-qr-reader";
 import { toast } from "react-toastify";
+
+import Button from "../common/Button";
 
 import Input from "@/components/common/Input";
 import { addActivity, saveToCookie } from "@/utils/actions";
@@ -28,7 +30,7 @@ export default function Scanner({
   defaultCameraDeviceId,
   defaultReverseCamera,
 }: Props) {
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
   const [cameraState, setCameraState] = useState<boolean>(false);
   const [currentDeviceId, setCurrentDeviceId] = useState<string | null>(
     defaultCameraDeviceId
@@ -36,8 +38,8 @@ export default function Scanner({
   const [reverseCamera, setReverseCamera] =
     useState<boolean>(defaultReverseCamera);
   const [deviceList, setDeviceList] = useState<DeviceProps[]>([]);
-  const [isProccessing, setIsProccessing] = useState<boolean>(false);
-  const [guestId, setGuestId] = useState<string>("");
+  const [lastGuestId, setLastGuestId] = useState<string>("");
+  const [message, setMessage] = useState<string | null>(null);
 
   const getCameraDeviceList = () => {
     navigator.mediaDevices
@@ -65,39 +67,6 @@ export default function Scanner({
     getCameraDeviceList();
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      if (guestId.length === USER_ID_LENGTH && !isProccessing) {
-        await setIsProccessing(true);
-        await startTransition(async () => {
-          const res = await addActivity({
-            event_id,
-            guest_id: guestId,
-          });
-          if (res === null) {
-            toast.error(`${guestId}というゲストは存在しません`);
-            await errorBeep();
-          } else {
-            toast.success(
-              `${res.guest_id}の${
-                res.type === "enter" ? "入室" : "退室"
-              }処理に成功しました`,
-              {
-                position: toast.POSITION.TOP_CENTER,
-                theme: "dark",
-                closeButton: true,
-                hideProgressBar: true,
-                autoClose: 2000,
-              }
-            );
-            await successBeep();
-          }
-        });
-        await setIsProccessing(false);
-      }
-    })();
-  }, [guestId]);
-
   const [refreshQrReader, setRefreshQrReader] = useState(true);
   const interval = 2 * 60 * 1000;
   useEffect(() => {
@@ -113,6 +82,35 @@ export default function Scanner({
   useEffect(() => {
     if (!refreshQrReader) setRefreshQrReader(true);
   }, [refreshQrReader]);
+
+  const onScan = async (guest_id: string) => {
+    setIsPending(true);
+    setLastGuestId(guest_id);
+    const res = await addActivity({
+      event_id,
+      guest_id,
+    });
+    if (res === null) {
+      toast.error(`${guest_id}というゲストは存在しません`);
+      await errorBeep();
+    } else {
+      toast.success(
+        `${res.guest_id}の${
+          res.type === "enter" ? "入室" : "退室"
+        }処理に成功しました`,
+        {
+          position: toast.POSITION.TOP_CENTER,
+          theme: "dark",
+          closeButton: true,
+          hideProgressBar: true,
+          autoClose: 2000,
+        }
+      );
+      await successBeep();
+    }
+    setIsPending(false);
+    setMessage(null);
+  };
 
   return (
     <div
@@ -176,10 +174,16 @@ export default function Scanner({
                 facingMode: "environment",
                 deviceId: currentDeviceId,
               }}
-              onResult={async (result, error) => {
+              onResult={(result, error) => {
                 if (!!result && !error && !isPending) {
                   const guest_id = result.getText();
-                  setGuestId(guest_id);
+                  if (guest_id.length === USER_ID_LENGTH) {
+                    if (guest_id !== lastGuestId) {
+                      onScan(guest_id);
+                    } else {
+                      setMessage("連続で同じゲストをスキャンしますか？");
+                    }
+                  }
                 }
               }}
               scanDelay={1000}
@@ -248,6 +252,48 @@ export default function Scanner({
               </option>
             ))}
           </select>
+        </div>
+      )}
+      {message && (
+        <div
+          className={css({
+            display: "flex",
+            gap: 2,
+            flexDirection: "column",
+            position: "fixed",
+            top: 0,
+            left: "50%",
+            alignItems: "center",
+            transform: "translateX(-50%)",
+            p: "1rem",
+            mt: "2rem",
+            backgroundColor: "white",
+            borderRadius: "lg",
+          })}
+        >
+          <p
+            className={css({
+              color: "black",
+            })}
+          >
+            {message}
+          </p>
+          <div
+            className={css({
+              display: "flex",
+              gap: 2,
+              justifyContent: "center",
+            })}
+          >
+            <Button onClick={() => onScan(lastGuestId)} variant="default">
+              <IconScan />
+              スキャンする
+            </Button>
+            <Button onClick={() => setMessage(null)} variant="danger">
+              <IconX />
+              閉じる
+            </Button>
+          </div>
         </div>
       )}
     </div>

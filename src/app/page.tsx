@@ -5,7 +5,6 @@ import { eq } from "drizzle-orm";
 import Title from "@/components/common/Title";
 import { db } from "@/db/connect";
 import { eventsTable } from "@/db/schema";
-import { css } from "@panda/css";
 
 const APP_VERSION = "0.7.0";
 const LAST_UPDATE = "2023/10/22 13:30";
@@ -34,13 +33,6 @@ export default async function HomePage() {
         </ul>
       )}
       <Title level="h3">アプリ情報</Title>
-      <p
-        className={css({
-          my: 4,
-        })}
-      >
-        アプリが更新されない場合はフォースリロード(Ctrl + F5)をお試しください。
-      </p>
       <ul>
         <li>v{APP_VERSION}</li>
         <li>最終更新: {LAST_UPDATE}</li>

@@ -2,10 +2,9 @@ import { Synth } from "tone";
 
 const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-const synth = new Synth().toDestination();
-
 export const successBeep = async () => {
   if (typeof window === "undefined") return;
+  const synth = new Synth().toDestination();
   try {
     synth.triggerAttackRelease("C4", "8n");
     await sleep(100);
@@ -19,6 +18,7 @@ export const successBeep = async () => {
 
 export const errorBeep = async () => {
   if (typeof window === "undefined") return;
+  const synth = new Synth().toDestination();
   try {
     synth.triggerAttackRelease("B4", "8n");
     await sleep(100);
