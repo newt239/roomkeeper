@@ -1,11 +1,6 @@
-import { Metadata } from "next";
 import Link from "next/link";
 
 import { css } from "@panda/css";
-
-export const metadata: Metadata = {
-  title: "管理画面",
-};
 
 export default async function AdminLayout({
   children,

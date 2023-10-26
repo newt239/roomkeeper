@@ -9,10 +9,7 @@ import { css } from "@panda/css";
 import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
-  title: {
-    template: "%s | Roomkeeper",
-    default: "Roomkeeper",
-  },
+  title: "Roomkeeper",
   description: "簡易入退室管理システム",
 };
 
