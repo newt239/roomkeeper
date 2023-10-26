@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 import Title from "@/components/common/Title";
 import DeleteButton from "@/components/feature/DeleteButton";
@@ -20,6 +20,7 @@ export default async function GuestIDPage({ params }: { params: Params }) {
     .where(eq(guestsTable.id, params.guest_id))
     .orderBy(guestsTable.id)
     .limit(1);
+
   if (guests.length !== 1) {
     return (
       <div>
@@ -33,7 +34,8 @@ export default async function GuestIDPage({ params }: { params: Params }) {
     .select()
     .from(activitiesTable)
     .where(eq(activitiesTable.guest_id, params.guest_id))
-    .orderBy(activitiesTable.timestamp);
+    .orderBy(desc(activitiesTable.timestamp))
+    .limit(30);
 
   return (
     <div>

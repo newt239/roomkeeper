@@ -40,7 +40,8 @@ export default async function SpecificDateHistoryPage({
           .format("YYYY-MM-DD HH:mm:ss")}`
       )
     )
-    .orderBy(desc(activitiesTable.timestamp));
+    .orderBy(desc(activitiesTable.timestamp))
+    .limit(200);
 
   const activities = results.map((result) => {
     return {

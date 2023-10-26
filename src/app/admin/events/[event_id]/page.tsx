@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import dayjs from "dayjs";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 import Title from "@/components/common/Title";
 import DeleteButton from "@/components/feature/DeleteButton";
@@ -21,6 +21,7 @@ export default async function EventIDPage({ params }: { params: Params }) {
     .from(eventsTable)
     .where(eq(eventsTable.id, params.event_id))
     .limit(1);
+
   if (events.length !== 1) {
     return (
       <div>
@@ -29,13 +30,15 @@ export default async function EventIDPage({ params }: { params: Params }) {
       </div>
     );
   }
+
   const event = events[0];
   const activities = await db
     .select()
     .from(activitiesTable)
     .leftJoin(guestsTable, eq(guestsTable.id, activitiesTable.guest_id))
     .where(eq(activitiesTable.event_id, params.event_id))
-    .orderBy(activitiesTable.timestamp);
+    .orderBy(desc(activitiesTable.timestamp))
+    .limit(200);
 
   return (
     <div>

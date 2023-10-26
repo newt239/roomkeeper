@@ -42,20 +42,18 @@ export default async function HistoryPage() {
     <div>
       <Title level="h2">スキャン履歴</Title>
       <Title level="h3">日別</Title>
-      <p className={css({ my: 4 })}>
-        <ul>
-          <li>
-            <Link href="/admin/history/today">
-              今日 - {dayjs().format("MM/DD")}
-            </Link>
-          </li>
-          <li>
-            <Link href={`/admin/history/${dayjs().format("YYYY-MM-DD")}`}>
-              昨日 - {dayjs().add(-1, "day").format("MM/DD")}
-            </Link>
-          </li>
-        </ul>
-      </p>
+      <ul className={css({ my: 4 })}>
+        <li>
+          <Link href="/admin/history/today">
+            今日 - {dayjs().format("MM/DD")}
+          </Link>
+        </li>
+        <li>
+          <Link href={`/admin/history/${dayjs().format("YYYY-MM-DD")}`}>
+            昨日 - {dayjs().add(-1, "day").format("MM/DD")}
+          </Link>
+        </li>
+      </ul>
       <Title level="h3">直近の記録</Title>
       {results.length === 0 ? (
         <p>履歴がありません。</p>
