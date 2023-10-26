@@ -186,7 +186,7 @@ export default function Scanner({
                   }
                 }
               }}
-              scanDelay={1000}
+              scanDelay={1}
             />
           )}
         </div>
