@@ -9,6 +9,7 @@ import { css } from "@panda/css";
 import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://roomkeeper.vercel.app/"),
   title: "Roomkeeper",
   description: "簡易入退室管理システム",
 };
