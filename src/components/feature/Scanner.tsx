@@ -43,11 +43,17 @@ export default function Scanner({
 
   const getCameraDeviceList = () => {
     navigator.mediaDevices
-      .enumerateDevices()
+      .getUserMedia({
+        video: true,
+      })
+      .then((_stream) => {
+        return navigator.mediaDevices.enumerateDevices();
+      })
       .then((mediaDevices) => {
         return mediaDevices
           .filter((device) => device.kind === "videoinput")
           .map((device) => {
+            console.log(device);
             return {
               label: device.label,
               deviceId: device.deviceId,
