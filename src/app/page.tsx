@@ -6,8 +6,8 @@ import Title from "@/components/common/Title";
 import { db } from "@/db/connect";
 import { eventsTable } from "@/db/schema";
 
-const APP_VERSION = "0.7.3";
-const LAST_UPDATE = "2023/03/08 20:45";
+const APP_VERSION = "0.7.4";
+const LAST_UPDATE = "2024/04/30 10:30";
 
 export default async function HomePage() {
   const events = await db
